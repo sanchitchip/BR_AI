@@ -1,0 +1,4 @@
+# Needed packages/versions
+matplotlib==Version
+numpy == 1.15.4
+pycodestyle>=2.4.0
