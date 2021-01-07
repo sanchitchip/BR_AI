@@ -18,7 +18,7 @@ B4 = B4.read(1).astype(float)
 B5 = B5.read(1).astype(float)
 B10 = B10.read(1).astype(float)
 B11 = B11.read(1).astype(float)
-#pdb.set_trace()
+
 metadata = vfile+ "LC08_L1TP_192027_20160912_20200906_02_T1_MTL.txt"
 
 scrap_lines = []
@@ -88,18 +88,9 @@ NIR_REF = ((REFLECTANCE_MULT_BAND_5 * B5) - REFLECTANCE_ADD_BAND_5) / (corrected
 #pdb.set_trace()
 
 NDVI_REF = (NIR_REF - RED_REF) / (NIR_REF + RED_REF)
-#NDVI_PATH = os.path.join(inGDB,'NDVI')
-#NDVI_REF.save(NDVI_PATH)
-
-#NDVI = NDVI_PATH
-
 #Create variables for the NDVI's max and min values:
-#NDVI_min_PROP = arcpy.management.GetRasterProperties(NDVI, "MINIMUM", '')
-#NDVI_min_VALUE = NDVI_min_PROP.getOutput(0)
 NDVI_min = np.min(NDVI_REF)
 
-#NDVI_max_PROP = arcpy.management.GetRasterProperties(NDVI, "MAXIMUM", '')
-#NDVI_max_VALUE = NDVI_max_PROP.getOutput(0)
 NDVI_max = np.max(NDVI_REF)
 
 
@@ -123,6 +114,4 @@ BAND11LST = (BAND11SATTEMP / 1) + (B11 * (BAND11SATTEMP/14380) *  (np.log(LSE)))
 #Find mean LST:
 LST_MEAN_11_10 = (BAND10LST + BAND11LST)/2
 
-#LST_MEAN_PATH = os.path.join(inGDB,'estLST_' + SCENE_CENTER_TIME + 'GMT_' + DATE_ACQUIRED)
-#LST_MEAN_11_10.save(LST_MEAN_PATH)
-pdb.set_trace()
+show(LST_MEAN_11_10)
