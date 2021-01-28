@@ -31,7 +31,7 @@ def plot_ndi(image, factor=1.0, clip_range=None, is_bar=True, **kwargs):
     
 
 def plot_truecolor(image, factor=2.5, clip_range=[0,1],is_bar=False):
-        """
+    """
     Utility function for plotting Normalized Difference Index images.
     
     Args:
@@ -44,6 +44,7 @@ def plot_truecolor(image, factor=2.5, clip_range=[0,1],is_bar=False):
         param is_bar: whether to plot colorbar.
         type is_bar: bool.
     """
+    
     fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(15, 15))
     if clip_range != None:
         im = ax.imshow(np.clip(image[...,[3,2,1]] * factor, *clip_range), vmin=0, vmax=1)

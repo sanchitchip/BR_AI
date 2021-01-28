@@ -66,6 +66,7 @@ def calc_ndvi(eopatch_data, satellite='landsat8', c=0):
     return ndvi
 
 
+
 def calc_ndwi(eopatch_data, satellite='landsat8', c=0):
     """
     Calculates Normalized Difference Water Index.
