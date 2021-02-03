@@ -10,13 +10,13 @@ def BrightnessTemp(B, ADD_BAND, MULT_BAND, k1, k2):
 def LSE(NDVI):
     vEm = np.zeros(NDVI.shape)
 
-    i, j = np.where(NDVI < 0.2)
-    vEm[i, j] = 0.97
+    h, i, j = np.where(NDVI < 0.2)
+    vEm[h, i, j] = 0.97
 
-    k, l = np.where(NDVI > 0.5)
-    vEm[k, l] = 0.99
-    m, n = np.where((NDVI >= 0.2) & (NDVI <= 0.5))
-    vEm[m, n] = (0.004 * (((NDVI[m, n] - 0.2) / (0.5 - 0.2)) ** 2)) + 0.986
+    z, k, l = np.where(NDVI > 0.5)
+    vEm[z, k, l] = 0.99
+    x, m, n = np.where((NDVI >= 0.2) & (NDVI <= 0.5))
+    vEm[x, m, n] = (0.004 * (((NDVI[x, m, n] - 0.2) / (0.5 - 0.2)) ** 2)) + 0.986
 
     return vEm
 
