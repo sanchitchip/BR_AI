@@ -132,7 +132,6 @@ def get_landsat8_range(aoi=None,config=None,year_range=None,
     vMask = []
     vcloud_coverage=maxcc
     for i in range(len(vtime_interval)):
-#        pdb.set_trace()
         try:
             vband = get_landsat8(time_interval=vtime_interval[i],
                                               maxcc=vcloud_coverage,
