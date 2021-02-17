@@ -5,6 +5,7 @@ from eolearn.core import SaveTask, FeatureType, LinearWorkflow, EOPatch,Overwrit
 from eolearn.io import SentinelHubInputTask
 import geopandas as gpd
 import numpy as np
+import pdb
 
 def set_config(new_id=False, **kwargs):
     """
@@ -113,6 +114,61 @@ def get_landsat8(aoi=None,
 
     return eopatch
 
+
+def get_landsat8_range(aoi=None,config=None,year_range=None,
+                       month = None,date_range=(1,30),maxcc=.1):
+    '''
+    Download uncorrupted landsat8 image for a given time range,cloud coverage.
+    This function makes sure that you don't get any image which requires Mask data or have certain pixels
+    with missing data.
+    '''
+    vtime_interval = []
+    for idx,val in enumerate(year_range):
+        vstrt = str(val)+'-0'+str(month[0])+'-0'+str(date_range[0])
+        vend = str(val)+'-0'+str(month[1])+'-'+str(date_range[1])
+        vtime_interval.append((vstrt,vend))    
+    vdata = []
+    vtimestamp = []
+    vMask = []
+    vcloud_coverage=maxcc
+    for i in range(len(vtime_interval)):
+#        pdb.set_trace()
+        try:
+            vband = get_landsat8(time_interval=vtime_interval[i],
+                                              maxcc=vcloud_coverage,
+                                              config=config)
+            vM = vband.mask['dataMask']
+            ## images which have data mask and we want to remove if the list is not empty
+            vNot = list(set(np.where(vM==False)[0]))
+            ## if the vNot lise is empty it implies that all the images fethced in this case 
+            ## don't have any masking and so we can just add the timestamp data and bands data to our list
+            if not vNot:
+                vdata.append(vband.data['L1C_data'])
+                for i in vband.timestamp:
+                    vtimestamp.append(i)
+            else:
+                ## in case vNot list is not empty we should find all images which might 
+                ## not have masking and add only them.
+                vInd= [i for i in range(vM.shape[0]) if i not in vNot]
+                if vInd:
+    #                print("Some of the images in this interval are corrupted {}".format(vtime_interval[i]))
+                    vdata.append(vband.data['L1C_data'][vInd,:,:,:])
+    #                print("Indices which are corrupted are {}".format(vNot))
+    #                print("Indices which are good are {}".format(vInd))
+                    for i in vInd:
+                        vtimestamp.append(vband.timestamp[i])
+
+                else:
+                    print("All the fetched image have corrupted data hence not added time_interval {}"
+                          .format(vtime_interval[i],vcloud_coverage))
+                    continue;
+
+
+        except:
+            print("No image exists for the parameters: time interval {},cloud coverage: {},".format(vtime_interval[i],
+                                                                                                    vcloud_coverage))
+    eopatch_data = np.concatenate(vdata,axis=0)
+    return eopatch_data,vtimestamp
 
 
 def get_sentinel2(aoi=None,
@@ -289,6 +345,8 @@ def validate_timestamp(aoi=None,
                                           time_difference=_time_difference,
                                           config=config)
     return input_task
+
+
 
 if __name__ == '__main__':
     set_config()
