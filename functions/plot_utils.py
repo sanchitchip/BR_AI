@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+import logging
+from matplotlib.colors import Normalize
 
 
 def plot_ndi(image, factor=1.0, clip_range=None, is_bar=True, **kwargs):
@@ -58,4 +60,31 @@ def plot_truecolor(image, factor=2.5, clip_range=[0,1],is_bar=False):
     ax.set_yticks([])
     
 
+def plot_LST_true(True_Image,LST,date,cmp=None):
+    # to remove the clipping warning/logging. 
+    logger = logging.getLogger()
+    old_level = logger.level
+    logger.setLevel(100)
+    ## the above part is only to remove the clipping warning and has no other relevance to the plot code.
+    if cmp is not None:
+        norm = Normalize(vmin=cmp[0],vmax=cmp[1])        
+    else:
+        norm = Normalize(vmin=np.min(LST),vmax=np.max(LST))        
+
+    plt.rcParams['figure.figsize'] = [12, 8]    
+    f, (ax1,ax2) = plt.subplots(1,2)
+    im = ax2.imshow(LST,cmap=plt.cm.jet,norm=norm)
+    f.colorbar(im,orientation="horizontal",fraction=0.07)
+    ax1.imshow(True_Image)
+    ax1.set_title(date)
+    plt.show()
+
+def plot_all_LST(True_Image,LST,date):
+    vmax = np.max(LST)
+    vmin = np.min(LST)
+    cmp = (vmax,vmin)
+    assert True_Image.shape[:-1] == LST.shape
+    vSze = True_Image.shape[0]
+    for i in range(vSze):
+        plot_LST_true(True_Image[i],LST[i],date[i],cmp = None )
 

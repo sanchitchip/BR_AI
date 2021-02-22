@@ -10,13 +10,13 @@ def BrightnessTemp(B, ADD_BAND, MULT_BAND, k1, k2):
 def LSE(NDVI):
     vEm = np.zeros(NDVI.shape)
 
-    i, j = np.where(NDVI < 0.2)
-    vEm[i, j] = 0.97
+    h, i, j = np.where(NDVI < 0.2)
+    vEm[h, i, j] = 0.97
 
-    k, l = np.where(NDVI > 0.5)
-    vEm[k, l] = 0.99
-    m, n = np.where((NDVI >= 0.2) & (NDVI <= 0.5))
-    vEm[m, n] = (0.004 * (((NDVI[m, n] - 0.2) / (0.5 - 0.2)) ** 2)) + 0.986
+    z, k, l = np.where(NDVI > 0.5)
+    vEm[z, k, l] = 0.99
+    x, m, n = np.where((NDVI >= 0.2) & (NDVI <= 0.5))
+    vEm[x, m, n] = (0.004 * (((NDVI[x, m, n] - 0.2) / (0.5 - 0.2)) ** 2)) + 0.986
 
     return vEm
 
@@ -27,3 +27,15 @@ def mono_LST(B_TEMP, B_LSE):
     ## BETTER way to computer the LST.
     B_LST = B_TEMP / (1 + (((0.0000115 * B_TEMP) / 14380) * np.log(B_LSE)))
     return B_LST
+
+
+
+# vtime = []
+# vcc = .2
+# for idx in range(len(vtime_interval)):
+#     try:
+#         vtime.append(validate_timestamp(time_interval=vtime_interval[idx],
+#                        config=vconfig,
+#                        maxcc=vcc))
+#     except:
+#         print("No image exists for the parameters: time interval {},cloud coverage: {},".format(i,vcc))

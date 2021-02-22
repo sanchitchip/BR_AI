@@ -4,6 +4,8 @@ from sentinelhub import BBox, CRS, DataCollection, SHConfig
 from eolearn.core import SaveTask, FeatureType, LinearWorkflow, EOPatch,OverwritePermission
 from eolearn.io import SentinelHubInputTask
 import geopandas as gpd
+import numpy as np
+import pdb
 
 def set_config(new_id=True, **kwargs):
     """
@@ -26,10 +28,10 @@ def set_config(new_id=True, **kwargs):
         )
     return config
 
-
 def get_landsat8(aoi=None,
-                 time_interval=('2020-04-01', '2020-05-05'),
-                 maxcc=.8,
+                 time_interval=('2020-04-10', '2020-04-28'),
+                 time_difference=None,    
+                 maxcc=.1,
                  resolution=20,
                  config=None):
     """
@@ -76,8 +78,12 @@ def get_landsat8(aoi=None,
         }
         config = set_config(**config_dict)
 
-    _time_difference = datetime.timedelta(hours=2)
+    if time_difference is None:
+        _time_difference = datetime.timedelta(hours=2)
+    else:
+        _time_difference = time_difference
 
+            
     input_task = SentinelHubInputTask(
         data_collection=DataCollection.LANDSAT8,
         bands=[
@@ -86,7 +92,10 @@ def get_landsat8(aoi=None,
         ],
         bands_feature=(FeatureType.DATA, 'L1C_data'),
         additional_data=[(FeatureType.MASK, 'dataMask')],
+#        size = (1000,1000),
+        bands_dtype=np.int16,
         resolution=resolution,
+#        additional_data=[(FeatureType.MASK, 'dataMask'),(FeatureType.META_INFO, 'META')],
         maxcc=maxcc,
         time_difference=_time_difference,
         config=config,
@@ -106,6 +115,59 @@ def get_landsat8(aoi=None,
     return eopatch
 
 
+def get_landsat8_range(aoi=None,config=None,year_range=None,
+                       month = None,date_range=(1,30),maxcc=.1):
+    '''
+    Download uncorrupted landsat8 image for a given time range,cloud coverage.
+    This function makes sure that you don't get any image which requires Mask data or have certain pixels
+    with missing data.
+    '''
+    vtime_interval = []
+    for idx,val in enumerate(year_range):
+        vstrt = str(val)+'-0'+str(month[0])+'-0'+str(date_range[0])
+        vend = str(val)+'-0'+str(month[1])+'-'+str(date_range[1])
+        vtime_interval.append((vstrt,vend))    
+    vdata = []
+    vtimestamp = []
+    vMask = []
+    vcloud_coverage=maxcc
+    for i in range(len(vtime_interval)):
+        try:
+            vband = get_landsat8(time_interval=vtime_interval[i],
+                                              maxcc=vcloud_coverage,
+                                              config=config)
+            vM = vband.mask['dataMask']
+            ## images which have data mask and we want to remove if the list is not empty
+            vNot = list(set(np.where(vM==False)[0]))
+            ## if the vNot lise is empty it implies that all the images fethced in this case 
+            ## don't have any masking and so we can just add the timestamp data and bands data to our list
+            if not vNot:
+                vdata.append(vband.data['L1C_data'])
+                for i in vband.timestamp:
+                    vtimestamp.append(i)
+            else:
+                ## in case vNot list is not empty we should find all images which might 
+                ## not have masking and add only them.
+                vInd= [i for i in range(vM.shape[0]) if i not in vNot]
+                if vInd:
+    #                print("Some of the images in this interval are corrupted {}".format(vtime_interval[i]))
+                    vdata.append(vband.data['L1C_data'][vInd,:,:,:])
+    #                print("Indices which are corrupted are {}".format(vNot))
+    #                print("Indices which are good are {}".format(vInd))
+                    for i in vInd:
+                        vtimestamp.append(vband.timestamp[i])
+
+                else:
+                    print("All the fetched image have corrupted data hence not added time_interval {}"
+                          .format(vtime_interval[i],vcloud_coverage))
+                    continue;
+
+
+        except:
+            print("No image exists for the parameters: time interval {},cloud coverage: {},".format(vtime_interval[i],
+                                                                                                    vcloud_coverage))
+    eopatch_data = np.concatenate(vdata,axis=0)
+    return eopatch_data,vtimestamp
 
 def get_sentinel2(aoi=None,
                   time_interval=('2020-04-01', '2020-05-05'),
@@ -241,6 +303,47 @@ def get_raw(eopatch,mask=False,bands=None,satellite="landsat"):
     else:
         data = _raw_data
     return data
+
+
+def validate_timestamp(aoi=None,
+                 time_interval=('2020-04-10', '2020-04-28'),
+                 time_difference=None,    
+                 maxcc=.2,
+                 config=None):
+    if aoi is None:
+        # if aoi not specificed use munich as default
+        _munich = gpd.read_file('../geojson/munich.geojson')
+        _interested_area = _munich.geometry.unary_union
+        _bbox_interested_area = _interested_area.bounds
+        _roi_bbox = BBox(bbox=_bbox_interested_area, crs=CRS.WGS84)
+    else:
+        if not isinstance(aoi, list) | isinstance(aoi, tuple):
+            raise TypeError("Input should be List or Tuple.")
+        if len(aoi) != 4:
+            raise TypeError(
+                "Input should be like (long_1,lati_1,long_2,lati_2).")
+    if not config:
+        config_dict = {
+            'INSTANCE_ID': '31aacbb6-8ad8-43f5-b19d-84a8302c2a3e',
+            'CLIENT_ID': '8c799cf6-53fa-4f98-a3ff-417cdc658b57',
+            'CLIENT_SECRET': '13[,;5upS5%e3@oZk?J^1:)Fu?*.+0kF|,kD6re2'
+        }
+        config = set_config(config_dict)
+
+    if time_difference is None:
+        _time_difference = datetime.timedelta(hours=2)
+    else:
+        _time_difference = time_difference
+
+            
+    input_task = get_available_timestamps(bbox = _roi_bbox,
+                                          data_collection=DataCollection.LANDSAT8,
+                                          time_interval=time_interval,
+                                          maxcc=maxcc,
+                                          time_difference=_time_difference,
+                                          config=config)
+    return input_task
+
 
 
 if __name__ == '__main__':
