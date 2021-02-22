@@ -7,7 +7,7 @@ import geopandas as gpd
 import numpy as np
 import pdb
 
-def set_config(new_id=False, **kwargs):
+def set_config(new_id=True, **kwargs):
     """
     A sentinelhub-py package configuration class.
     Args:
@@ -72,11 +72,11 @@ def get_landsat8(aoi=None,
                 "Input should be like (long_1,lati_1,long_2,lati_2).")
     if not config:
         config_dict = {
-            'INSTANCE_ID': '31aacbb6-8ad8-43f5-b19d-84a8302c2a3e',
-            'CLIENT_ID': '8c799cf6-53fa-4f98-a3ff-417cdc658b57',
-            'CLIENT_SECRET': '13[,;5upS5%e3@oZk?J^1:)Fu?*.+0kF|,kD6re2'
+            'INSTANCE_ID': '9445bbf5-1f51-4a12-9a1c-909625defaa6',
+            'CLIENT_ID': '278cd057-ed6f-4cd2-b7df-abf1698cdb9c',
+            'CLIENT_SECRET': 'r3NKPHdw6pOFsv&gOW}3Ljk&<ZL-zJu6]p5z-ln:'
         }
-        config = set_config(config_dict)
+        config = set_config(**config_dict)
 
     if time_difference is None:
         _time_difference = datetime.timedelta(hours=2)
@@ -169,7 +169,6 @@ def get_landsat8_range(aoi=None,config=None,year_range=None,
     eopatch_data = np.concatenate(vdata,axis=0)
     return eopatch_data,vtimestamp
 
-
 def get_sentinel2(aoi=None,
                   time_interval=('2020-04-01', '2020-05-05'),
                   maxcc=.8,
@@ -214,12 +213,12 @@ def get_sentinel2(aoi=None,
         _roi_bbox = BBox(bbox=aoi, crs=CRS.WGS84)
     if not config:
         config_dict = {
-            'INSTANCE_ID': '31aacbb6-8ad8-43f5-b19d-84a8302c2a3e',
-            'CLIENT_ID': '8c799cf6-53fa-4f98-a3ff-417cdc658b57',
-            'CLIENT_SECRET': '13[,;5upS5%e3@oZk?J^1:)Fu?*.+0kF|,kD6re2'
+            'INSTANCE_ID': '9445bbf5-1f51-4a12-9a1c-909625defaa6',
+            'CLIENT_ID': '278cd057-ed6f-4cd2-b7df-abf1698cdb9c',
+            'CLIENT_SECRET': 'r3NKPHdw6pOFsv&gOW}3Ljk&<ZL-zJu6]p5z-ln:'
         }
-        config = set_config(config_dict)
-
+        config = set_config(**config_dict)
+        
     _time_difference = datetime.timedelta(hours=2)
 
     input_task = SentinelHubInputTask(
@@ -350,4 +349,8 @@ def validate_timestamp(aoi=None,
 if __name__ == '__main__':
     set_config()
     eo_test = get_landsat8()
+    
     # save_eopatch(eo_test,'../example_data/generate_by_io_pipe')
+    
+
+
