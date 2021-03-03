@@ -70,6 +70,7 @@ def get_landsat8(aoi=None,
         if len(aoi) != 4:
             raise TypeError(
                 "Input should be like (long_1,lati_1,long_2,lati_2).")
+        _roi_bbox = BBox(bbox=aoi, crs=CRS.WGS84)
     if not config:
         config_dict = {
             'INSTANCE_ID': '9445bbf5-1f51-4a12-9a1c-909625defaa6',
