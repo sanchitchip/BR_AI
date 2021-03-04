@@ -39,3 +39,19 @@ def mono_LST(B_TEMP, B_LSE):
 #                        maxcc=vcc))
 #     except:
 #         print("No image exists for the parameters: time interval {},cloud coverage: {},".format(i,vcc))
+
+
+
+def temperature_threshold(vdesired, blobs):
+    vfinal = []
+    vrange = 10
+    vper = np.percentile(vdesired, q=98)
+    for blob in blobs:
+        y, x, r = blob
+        y, x = y.astype(np.int64), x.astype(np.int64)
+        #     vmean = vdesired[x-vrange:x+vrange,y-vrange:y+vrange].mean()
+        vmean = vdesired[y - vrange:y + vrange, x - vrange:x + vrange].mean()
+        if vmean > vper:
+            vfinal.append(np.array([y, x, r]))
+    vfinal = np.array(vfinal)
+    return vfinal
