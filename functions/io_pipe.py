@@ -73,9 +73,9 @@ def get_landsat8(aoi=None,
         _roi_bbox = BBox(bbox=aoi, crs=CRS.WGS84)
     if not config:
         config_dict = {
-            'INSTANCE_ID': '9445bbf5-1f51-4a12-9a1c-909625defaa6',
-            'CLIENT_ID': '278cd057-ed6f-4cd2-b7df-abf1698cdb9c',
-            'CLIENT_SECRET': 'r3NKPHdw6pOFsv&gOW}3Ljk&<ZL-zJu6]p5z-ln:'
+            'INSTANCE_ID': '46050bd7-c3d7-48ae-9eb0-778a3cc4e1f5',
+            'CLIENT_ID': '1baa0f1c-f797-4c51-ad28-5ff0a9a6e399',
+            'CLIENT_SECRET': '[7/{<L4(%^(lPkh%XrzOiIj-W.B{I@n1&{DH0WjM'
         }
         config = set_config(**config_dict)
 
@@ -214,9 +214,9 @@ def get_sentinel2(aoi=None,
         _roi_bbox = BBox(bbox=aoi, crs=CRS.WGS84)
     if not config:
         config_dict = {
-            'INSTANCE_ID': '9445bbf5-1f51-4a12-9a1c-909625defaa6',
-            'CLIENT_ID': '278cd057-ed6f-4cd2-b7df-abf1698cdb9c',
-            'CLIENT_SECRET': 'r3NKPHdw6pOFsv&gOW}3Ljk&<ZL-zJu6]p5z-ln:'
+            'INSTANCE_ID': '46050bd7-c3d7-48ae-9eb0-778a3cc4e1f5',
+            'CLIENT_ID': '1baa0f1c-f797-4c51-ad28-5ff0a9a6e399',
+            'CLIENT_SECRET': '[7/{<L4(%^(lPkh%XrzOiIj-W.B{I@n1&{DH0WjM'
         }
         config = set_config(**config_dict)
         
