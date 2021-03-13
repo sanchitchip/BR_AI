@@ -134,7 +134,7 @@ def get_landsat8_range(aoi=None,config=None,year_range=None,
     vcloud_coverage=maxcc
     for i in range(len(vtime_interval)):
         try:
-            vband = get_landsat8(time_interval=vtime_interval[i],
+            vband = get_landsat8(aoi=aoi,time_interval=vtime_interval[i],
                                               maxcc=vcloud_coverage,
                                               config=config)
             vM = vband.mask['dataMask']

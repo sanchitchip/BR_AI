@@ -104,9 +104,9 @@ def get_bbox(geo_matrix,blobs,filter_size=20):
     vfinal=[]
     for i in range(len(blobs)):
         y,x,_ = blobs[i]
-        pdb.set_trace()
         vfinal.append(make_bbox(geo_matrix,(int(x),int(y)),filter_size))
     return vfinal
+
 ## there is a chance that this might give bad results for first image. I know the reason why and will try to fix it eventually 
 ## but this should work for the other functions.
 '''

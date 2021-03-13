@@ -55,3 +55,23 @@ def temperature_threshold(vdesired, blobs):
             vfinal.append(np.array([y, x, r]))
     vfinal = np.array(vfinal)
     return vfinal
+
+
+'''
+taking a patch of 30x30 pixel for each possible blob 
+and seeing if the average temperature is greater than 90th percentile of the temperature
+''' 
+def threshold_hessian(desired,blobs,filter_size=10):
+    vfinal= []
+    vrange=filter_size
+    vper = np.percentile(desired,q=98)
+    for blob in blobs:
+        y,x,r = blob
+        y,x = y.astype(np.int64),x.astype(np.int64)
+    #     vmean = vdesired[x-vrange:x+vrange,y-vrange:y+vrange].mean()
+        vmean = desired[y-vrange:y+vrange,x-vrange:x+vrange].mean()
+        if vmean>vper:
+            vfinal.append(np.array([y,x,r]))
+    vfinal = np.array(vfinal)
+    return vfinal
+
