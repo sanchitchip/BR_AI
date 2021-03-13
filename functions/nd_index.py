@@ -132,6 +132,6 @@ def get_lst(eopatch_data,satellite='landsat8'):
         B11 = eopatch_data[:,:,:,10]-273
         vLSE = lst.LSE(NDVI_REF)
         vLST = lst.mono_LST(B10,vLSE)
+        return vLST
     else:
         ValueError("Currently only implemented for landsat8 satellite")
-    return vLST
