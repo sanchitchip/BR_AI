@@ -11,38 +11,49 @@ from matplotlib import pyplot as plt
 import geopandas as gpd
 from sentinelhub import BBox, CRS, DataCollection, SHConfig
 
+
+
+## -- for testing 
+# 1.) check type of image_height,width
+# 2.) check type of bbox
+# 3.) if any input value is None return value error.
+
 def get_coord_matrix(image_width,image_height,bbox):
-    
-    #!!!!! be careful what does the width and height individually correspond to? long or lati?
-    """[summary]
-
+    """ This functions returns tuples of list where each list tells latitude or longitude values of a particular pixel
     Args:
-        image_width ([type]): [description]
-        image_height ([type]): [description]
-        bbox ([type]): [description]
+        param image_width: width of image
+        type image_width: int.
 
-    Returns:
-        [type]: [description]
+        param image_height: height of image
+        type image_height: int.
+        
+        bbox: BBox using which the satellite image was generated. or the diagonal geo-coordinates of the 
+                image
+        type bbox: sentinelhub bbox object.
+        
+    Returns: 
+         returns the  geo coodinates of a coordinates of a given pixel in an image
     """
+
+    #!!!!! be careful what does the width and height individually correspond to? long or lati?
     bounds = tuple(bbox)
-    # please double check this
     long_shape = image_width 
     lati_shape = image_height 
     long = bounds[::2]
     lati = bounds[1::2]
     space_long,diff_long = np.linspace(*long,long_shape,retstep=True)
     space_lati,diff_lati = np.linspace(*lati,lati_shape,retstep=True)
-    #pdb.set_trace()
-    #geo_matrix = None
     distance = [diff_long, diff_lati]
     return (space_long,space_lati), distance
 
 
 
 
-
+## -- for testing 
+# 1.) check type of geo_matrix
+# 2.) check type of index_pixel and check if value is None or not in case of none return value error
 def get_geoindex(geo_matrix, index_pixel):
-    """[summary]
+    """ This functions returns geo-coordinates of pixels of image coordinate.
     Args:
         param geo_matrix: this is a tuple which tells us which image coordinate corresponds
                           to which geo-coordinates.
@@ -63,9 +74,12 @@ def get_geoindex(geo_matrix, index_pixel):
     return (vX_geo,vY_geo)
  #   return list(geo1,geo2,...)
 
-
+## -- for testing 
+# 1.) check type of geo_matrix
+# 2.) check type of index_pixel and check if value is None or not in case of none return value error
 def make_bbox(geo_matrix,index_pixel,filter_size=20):
-    """[summary]
+    """ This functions makes bbox for a particular x,y coordinates from images by first fetching their geo-coordinates 
+    and converting them to BBox object.
 
     Args:
         param geo_matrix: this is a tuple which tells us which image coordinate corresponds
