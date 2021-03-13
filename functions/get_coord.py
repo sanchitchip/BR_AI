@@ -107,10 +107,25 @@ def get_bbox(geo_matrix,blobs,filter_size=20):
         pdb.set_trace()
         vfinal.append(make_bbox(geo_matrix,(int(x),int(y)),filter_size))
     return vfinal
+## there is a chance that this might give bad results for first image. I know the reason why and will try to fix it eventually 
+## but this should work for the other functions.
+'''
+This function will give you the shape of (21,9,20,20,12).
+'''
+def get_island_submatrix(data,blobs,filter_shape=20,dim_error=False):
+    vfin = []
+    for i in range(len(blobs)):
+        y,x,_ = blobs[i]
+        y,x = int(y),int(x)
+        if dim_error and i==0:
+            vfin.append(data[:,y-filter_shape-8:y+filter_shape,x-filter_shape:x+filter_shape,:])
+        else:
+            vfin.append(data[:,y-filter_shape:y+filter_shape,x-filter_shape:x+filter_shape,:])
 
-#    return list(geo_bbox1,geo_bbox2)
-# Read eopatch as eodata
-
+    vfin = np.stack(vfin)
+    return vfin
+    
+    
 
 if __name__ == '__main__':
 
