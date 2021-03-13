@@ -59,8 +59,27 @@ def plot_truecolor(image, factor=2.5, clip_range=[0,1],is_bar=False):
     ax.set_xticks([])
     ax.set_yticks([])
     
-
+# testing ideas:
+# 1.) check input arguments data type
+# 2.) check if any inputs arguments are None and if yes return value error
 def plot_LST_true(True_Image,LST,date,cmp=None):
+    """
+    Function which plots satellite image and its corresponding land surface temperature as subplots.
+    Args:
+        param True_Image: numpy array(RGB) of satellite image of shape (h,w,3) 
+        type factor: np.array.
+        
+        param LST: LST matrix of the corresponding satellite image of shape (h,w).
+        type LST: np.array.
+        
+        param date: timestamp info of the satellite image so can be added in the plot.
+        type is_bar: datetime.datetime .
+        
+        param cmap: colormap for the plot. If None looks at the max and min value of the LST matrix
+        type cmap: matplotlib cmap object
+        
+    """    
+    
     # to remove the clipping warning/logging. 
     logger = logging.getLogger()
     old_level = logger.level
@@ -80,6 +99,20 @@ def plot_LST_true(True_Image,LST,date,cmp=None):
     plt.show()
 
 def plot_all_LST(True_Image,LST,date):
+    """
+    Function which plots all satellite image and there corresponding land surface temperature. 
+    This function will only work for Jupyter Notebooks for .py u will have to write subplots.
+    Args:
+        param True_Image: numpy array(RGB) of satellite image of shape (n,h,w,3) where n is number of images
+        type factor: np.array.
+        
+        param LST: LST matrix of the corresponding satellite image of shape (n,h,w). where n is number of images
+        type LST: np.array.
+        
+        param date: timestamp info of the satellite image so can be added in the plot.
+        type is_bar: datetime.datetime .        
+    """
+    
     vmax = np.max(LST)
     vmin = np.min(LST)
     cmp = (vmax,vmin)
@@ -89,6 +122,25 @@ def plot_all_LST(True_Image,LST,date):
         plot_LST_true(True_Image[i],LST[i],date[i],cmp = None )
 
 def plot_islands(original,lst,detected_island,limit=None,enhance_radius=False):
+    """
+    Function which plots all satellite image and there corresponding land surface temperature. 
+    This function will only work for Jupyter Notebooks for .py u will have to write subplots.
+    Args:
+        param original: numpy array(RGB) of satellite image of shape (n,h,w,3) where n is number of images
+        type factor: np.array.
+        
+        param LST: LST matrix of the corresponding satellite image of shape (n,h,w). where n is number of images
+        type LST: np.array.
+        
+        param detected_island: list of the coordinates of detected island which are to be plotted in the original 
+        and its corresponding image.
+        type detected_island:  list of tuple.
+        
+        param enhance_radius: whether to plot circle with bigger radius instead of the one computed by hessian algorithm.
+        type enhance_radius: boolean  .
+        
+    """
+    
     fig, axes = plt.subplots(1, 2, figsize=(40, 40), sharex=True, sharey=True)
     ax = axes.ravel()
     #plt.imshow(vLST[0],cmap='gray')

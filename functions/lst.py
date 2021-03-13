@@ -29,19 +29,6 @@ def mono_LST(B_TEMP, B_LSE):
     return B_LST
 
 
-
-# vtime = []
-# vcc = .2
-# for idx in range(len(vtime_interval)):
-#     try:
-#         vtime.append(validate_timestamp(time_interval=vtime_interval[idx],
-#                        config=vconfig,
-#                        maxcc=vcc))
-#     except:
-#         print("No image exists for the parameters: time interval {},cloud coverage: {},".format(i,vcc))
-
-
-
 def temperature_threshold(vdesired, blobs):
     vfinal = []
     vrange = 10
