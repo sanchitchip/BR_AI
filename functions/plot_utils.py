@@ -87,3 +87,31 @@ def plot_all_LST(True_Image,LST,date):
     vSze = True_Image.shape[0]
     for i in range(vSze):
         plot_LST_true(True_Image[i],LST[i],date[i],cmp = None )
+
+def plot_islands(original,lst,detected_island,limit=None,enhance_radius=False):
+    fig, axes = plt.subplots(1, 2, figsize=(40, 40), sharex=True, sharey=True)
+    ax = axes.ravel()
+    #plt.imshow(vLST[0],cmap='gray')
+    ax[0].imshow(original)
+    ax[1].imshow(lst,cmap=plt.cm.jet)
+    for blob in detected_island:
+        y, x, r = blob
+        if limit is None:
+            if enhance_radius:
+                c = plt.Circle((x, y), r*3, color='green', linewidth=2, fill=False)
+            else:
+                c =plt.Circle((x, y), r, color='green', linewidth=2, fill=False)
+            c2 = plt.Circle((x, y), r, color='green', linewidth=2, fill=False)
+            ax[0].add_patch(c)
+            ax[1].add_patch(c2)
+        else:            
+            if r>limit:
+                if enhance_radius:
+                    print("here")
+                    c = plt.Circle((x, y), r*3, color='green', linewidth=2, fill=False)
+                else:
+                    c =plt.Circle((x, y), r, color='green', linewidth=2, fill=False)
+                c2 = plt.Circle((x, y), r, color='green', linewidth=2, fill=False)
+                ax[0].add_patch(c)
+                ax[1].add_patch(c2)
+    plt.show()
