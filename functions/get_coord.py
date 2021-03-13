@@ -114,7 +114,27 @@ def make_bbox(geo_matrix,index_pixel,filter_size=20):
     roi_bbox = BBox(bbox=interested_area, crs=CRS.WGS84)
     return roi_bbox
 
+
+## -- for testing 
+# 1.) check type of geo_matrix
+# 2.) check type of blobs and check if value is None or not in case of none return value error
 def get_bbox(geo_matrix,blobs,filter_size=20):
+    """ This function returns list of bbox for the geo-coordinates of detected heat islands.
+
+    Args:
+        param geo_matrix: this is a tuple which tells us which image coordinate corresponds
+                          to which geo-coordinates.
+        type geo_matrix: tuple of 2 list.
+        
+        param blobs: list of islands candidate detected using hessian algorithm
+        type blobs: list of tuple.
+        
+        param filter_size: filter size of AOI.
+        type filter_size: int.
+        
+    Returns:
+        returns bbox of the given geo coordinates
+    """
     vfinal=[]
     for i in range(len(blobs)):
         y,x,_ = blobs[i]
@@ -123,10 +143,31 @@ def get_bbox(geo_matrix,blobs,filter_size=20):
 
 ## there is a chance that this might give bad results for first image. I know the reason why and will try to fix it eventually 
 ## but this should work for the other functions.
-'''
-This function will give you the shape of (21,9,20,20,12).
-'''
+## --test for testing 
+# 1.) check if number of bands correct
+# 2.) check if input shape is correct.
+# 3.) check if blobs is of list type and not empty
+
 def get_island_submatrix(data,blobs,filter_shape=20,dim_error=False):
+    """ This function is used for Demo UI for alex
+
+    Args:
+        param data: Array of eopatch data of shape (timestamp,image_height,image_width,bands).
+        type data: numpy array.
+        
+        param blobs: list of islands candidate detected using hessian algorithm
+        type blobs: list of tuple.
+        
+        param filter_size: filter size of AOI.
+        type filter_size: int.
+
+        param dim_error: hack for 1st image being corrupted need a long term solution.
+        type filter_size: boolean.
+        
+      
+    Returns:
+        returns numpy array of dim (Number of island,Number of Images,image_height,image_width,bands)
+    """
     vfin = []
     for i in range(len(blobs)):
         y,x,_ = blobs[i]
