@@ -2,12 +2,42 @@ import numpy as np
 
 def BrightnessTemp(B, ADD_BAND, MULT_BAND, k1, k2):
     # Reference: https://www.usgs.gov/core-science-systems/nli/landsat/using-usgs-landsat-level-1-data-product
+    """ This functions returns Brightness temperature which is useful for computation of Land surface temperature.
+    Args:
+        param B: numpy array 
+        type B: int.
+
+        param ADD_BAND: Band-specific thermal conversion constant from the metadata .
+        type ADD_BAND: int or float.
+        
+        param MULT_BAND: Band-specific thermal conversion constant from the metadata.
+                
+        type MULT_BAND: int or float
+        
+        param k1: Band-specific thermal conversion constant from the metadata 
+                          (K1_CONSTANT_BAND_x, where x is the thermal band number)
+        param k1: Band-specific thermal conversion constant from the metadata 
+                   (K2_CONSTANT_BAND_x, where x is the thermal band number)
+        
+    Returns: 
+         returns the brightness temperature matrix(Kelvin) for the given satellite image.
+    """
+    
+    # vRad = TOA spectral radiance (Watts/( m2 * srad * μm))
     vRad = (MULT_BAND * B) + ADD_BAND
     vTemp = ((k2 / np.log((k1 / vRad + 1)) - 272.15))
     return vTemp
 
 
 def LSE(NDVI):
+    """ This functions returns Land surface emissivity which is useful for computation of Land surface temperature.
+    Args:
+        param NDVI: Vegetation index  
+        type NDVI: numpy array
+        
+    Returns: 
+         returns the brightness temperature matrix(Kelvin) for the given satellite image.
+    """
     vEm = np.zeros(NDVI.shape)
 
     h, i, j = np.where(NDVI < 0.2)
