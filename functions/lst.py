@@ -20,7 +20,6 @@ def LSE(NDVI):
 
     return vEm
 
-
 def mono_LST(B_TEMP, B_LSE):
     # old way to compute LST
     # B_LST = (B_TEMP / 1) + (B10 * (B_TEMP/14380) * (np.log(B_LSE)))

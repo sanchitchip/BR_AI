@@ -5,6 +5,8 @@ import logging
 from matplotlib.colors import Normalize
 
 
+
+
 def plot_ndi(image, factor=1.0, clip_range=None, is_bar=True, **kwargs):
     """
     Utility function for plotting Normalized Difference Index images.
@@ -88,3 +90,8 @@ def plot_all_LST(True_Image,LST,date):
     for i in range(vSze):
         plot_LST_true(True_Image[i],LST[i],date[i],cmp = None )
 
+
+
+
+
+    

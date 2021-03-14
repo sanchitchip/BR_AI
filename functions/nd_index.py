@@ -1,6 +1,6 @@
 import numpy as np
 
-def normalized_difference_index(band_a, band_b, c=0):
+def normalized_difference_index(band_a, band_b, c=0.01):
     """
     Calculates a Normalized Difference Index (NDI) between two bands A and B as
     NDI = (A - B + c)/(A + B + c), where c is provided as the acorvi_constant argument.
@@ -20,7 +20,7 @@ def normalized_difference_index(band_a, band_b, c=0):
     return ndi
 
 
-def calc_ndvi(eopatch_data, satellite='landsat8', c=0):
+def calc_ndvi(eopatch_data, satellite='landsat8', c=0.01):
     """
     Calculates Normalized difference vegetation index.
     NDVI is a simple, but effective index for quantifying green vegetation.
@@ -67,7 +67,7 @@ def calc_ndvi(eopatch_data, satellite='landsat8', c=0):
 
 
 
-def calc_ndwi(eopatch_data, satellite='landsat8', c=0):
+def calc_ndwi(eopatch_data, satellite='landsat8', c=0.01):
     """
     Calculates Normalized Difference Water Index.
     The NDWI is used to monitor changes related to water content in water bodies.
