@@ -1,6 +1,11 @@
 import numpy as np
+<<<<<<< HEAD
 
 def normalized_difference_index(band_a, band_b, c=0.01):
+=======
+import lst
+def normalized_difference_index(band_a, band_b, c=0):
+>>>>>>> origin/main
     """
     Calculates a Normalized Difference Index (NDI) between two bands A and B as
     NDI = (A - B + c)/(A + B + c), where c is provided as the acorvi_constant argument.
@@ -110,3 +115,28 @@ def calc_ndwi(eopatch_data, satellite='landsat8', c=0.01):
     ndwi = normalized_difference_index(_green_band, _nir_band, c=c)
 
     return ndwi
+def get_lst(eopatch_data,satellite='landsat8'):
+    '''
+    Calculates the Land surface temperature which is is the radiative skin temperature of the land surface,
+    as measured in the direction of the remote sensor.
+    Currently only implemented for landsat8
+
+    Args:
+        param eopatch_data: Original Data tensor.
+        type eopatch_data: np.ndarray, shape(time,image_width,image_height, bands). There should be 12 bands.
+        
+        param satellite: Satellite Name.
+        type satellite: str, 'landsat8', 'landsat5', 'landsat7' or 'sentinel'.
+    
+    return LST matrix 
+
+    '''
+    if satellite=='landsat8':
+        NDVI_REF = calc_ndvi(eopatch_data)
+        B10 = eopatch_data[:,:,:,9]-273
+        B11 = eopatch_data[:,:,:,10]-273
+        vLSE = lst.LSE(NDVI_REF)
+        vLST = lst.mono_LST(B10,vLSE)
+        return vLST
+    else:
+        ValueError("Currently only implemented for landsat8 satellite")

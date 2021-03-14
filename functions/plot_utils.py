@@ -89,9 +89,12 @@ def plot_all_LST(True_Image,LST,date):
     vSze = True_Image.shape[0]
     for i in range(vSze):
         plot_LST_true(True_Image[i],LST[i],date[i],cmp = None )
+<<<<<<< HEAD
 
 
 
 
 
     
+=======
+>>>>>>> origin/main
