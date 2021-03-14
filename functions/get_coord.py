@@ -10,7 +10,7 @@ import plot_utils
 from matplotlib import pyplot as plt
 import geopandas as gpd
 from sentinelhub import BBox, CRS, DataCollection, SHConfig
-
+import pdb
 
 
 ## -- for testing 
@@ -74,6 +74,51 @@ def get_geoindex(geo_matrix, index_pixel):
     return (vX_geo,vY_geo)
  #   return list(geo1,geo2,...)
 
+    
+def get_patch(geo_matrix,index_pixel,filter_size=20):
+    """ This functions returns pixel coordinates of diagonal patch which is used to compute bbox
+    for possible heat islands
+
+    Args:
+        param geo_matrix: this is a tuple which tells us which image coordinate corresponds
+                          to which geo-coordinates.
+        type geo_matrix: tuple of 2 list.
+        
+        param index_pixel: coordinates of our reqired point in image.
+        type index_pixel: tuple.
+        
+        param filter_size: filter size of AOI.
+        type filter_size: int.
+      
+    Returns:
+        returns tuple of pixel coordinates of diagonal patch
+    """
+    
+    # geo = (long: image_width,lati: image_height)
+    image_width,image_height = [len(i) for i in geo_matrix]
+    x,y = index_pixel
+    vX_max = index_pixel[0]+20
+    vX_min = index_pixel[0]-20
+    vY_max = index_pixel[1]+20
+    vY_min = index_pixel[1]-20    
+    if y+20>image_height:
+        vY_max = image_height-1
+        vY_min = vY_max-2*filter_size
+    if y-20<0:
+        vY_min = 0
+        vdiff = filter_size - y
+        vY_max = vY_min +2*filter_size
+    ## doing the same for x    
+    if x+20>image_width:
+        vX_max = image_width -1
+#        vdiff = filte_size + image_width-x
+        vX_min = vX_max-2*filter_size
+    if x-20<0:
+        vY_min = 0        
+#        vdiff = filter_size - x
+        vY_max = vY_min+2*filter_size
+    return (vX_max,vY_max,vX_min,vY_min)
+
 ## -- for testing 
 # 1.) check type of geo_matrix
 # 2.) check type of index_pixel and check if value is None or not in case of none return value error
@@ -91,17 +136,11 @@ def make_bbox(geo_matrix,index_pixel,filter_size=20):
         
         param filter_size: filter size of AOI.
         type filter_size: int.
-        
-
-        geo_matrix ([tuple]): 
       
     Returns:
         returns bbox of the given geo coordinates
     """
-    vX_max = index_pixel[0]+20
-    vX_min = index_pixel[0]-20
-    vY_max = index_pixel[1]+20
-    vY_min = index_pixel[1]-20
+    vX_max,vY_max,vX_min,vY_min = get_patch(geo_matrix,index_pixel,filter_size)
     vX_geo_max = geo_matrix[0][vX_max]
     vX_geo_min = geo_matrix[0][vX_min]
     # instead of using this modify the y as difference value.
@@ -147,7 +186,6 @@ def get_bbox(geo_matrix,blobs,filter_size=20):
 # 1.) check if number of bands correct
 # 2.) check if input shape is correct.
 # 3.) check if blobs is of list type and not empty
-
 def get_island_submatrix(data,blobs,filter_shape=20,dim_error=False):
     """ This function is used for Demo UI for alex
 
