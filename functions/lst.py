@@ -52,6 +52,20 @@ def LSE(NDVI):
 
 
 def mono_LST(B_TEMP, B_LSE):
+    """ This functions returns Land surface temperature(Kelvin) for a satellite image computed using Mono-window algorithm
+        using brightness temperature matrix
+        and land surface emissivity matrix.
+    Args:
+        param B_TEMP: Brightness temperature matrix returned from either the Brightness temperature function or directly fetched 
+                       using sentinel hub API
+        type B_TEMP: numpy array
+
+        param B_LSE: Surface emmisivity matrix returned from LSE function. 
+        type B_LSE: numpy array
+        
+    Returns: Land surface temperautre matrix.
+    
+    """
     # old way to compute LST
     # B_LST = (B_TEMP / 1) + (B10 * (B_TEMP/14380) * (np.log(B_LSE)))
     ## BETTER way to computer the LST.
@@ -60,6 +74,19 @@ def mono_LST(B_TEMP, B_LSE):
 
 
 def temperature_threshold(vdesired, blobs):
+    """ This function acts as a threshold to remove unwanted detected island which are of low temperature by 
+        taking a 20*20 patch and computing its mean which if is above a threshold(98 percentile of LST temperature) than selected 
+        that.
+    Args:
+        param vdesired: LST matrix
+        type B_TEMP: numpy array
+
+        param blobs: list of island candidates generated using any othe the implemented algorithm (DOH,DOG etc..) 
+        type blobs: list of tuple.
+        
+    Returns: returns numpy array of potential island candidates after threshold.
+    
+    """
     vfinal = []
     vrange = 10
     vper = np.percentile(vdesired, q=98)
@@ -79,6 +106,19 @@ taking a patch of 30x30 pixel for each possible blob
 and seeing if the average temperature is greater than 90th percentile of the temperature
 ''' 
 def threshold_hessian(desired,blobs,filter_size=10):
+    """ This function acts as a threshold to remove unwanted detected island which are of low temperature by 
+        taking a 20*20 patch and computing its mean which if is above a threshold(98 percentile of LST temperature) than selected 
+        that.
+    Args:
+        param vdesired: LST matrix
+        type B_TEMP: numpy array
+
+        param blobs: list of island candidates generated using any othe the implemented algorithm (DOH,DOG etc..) 
+        type blobs: list of tuple.
+        
+    Returns: returns numpy array of potential island candidates after threshold.
+    
+    """
     vfinal= []
     vrange=filter_size
     vper = np.percentile(desired,q=98)
