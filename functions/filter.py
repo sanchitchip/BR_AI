@@ -230,8 +230,6 @@ def get_island_submatrix(data,blobs,filter_shape=20,dim_error=False):
 #     xr_array = xr.DataArray(plot_data,coords=[xr_time,space_lati,space_long],dims=['time','lati','long'])
     
 #     return xr_array
-"""
-
 
 
 
