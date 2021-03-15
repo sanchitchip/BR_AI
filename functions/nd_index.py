@@ -1,6 +1,9 @@
+import sys
+sys.path.insert(1, "../functions/")
 import numpy as np
 import lst
-def normalized_difference_index(band_a, band_b, c=0):
+
+def normalized_difference_index(band_a, band_b, c=0.01):
     """
     Calculates a Normalized Difference Index (NDI) between two bands A and B as
     NDI = (A - B + c)/(A + B + c), where c is provided as the acorvi_constant argument.
@@ -20,7 +23,7 @@ def normalized_difference_index(band_a, band_b, c=0):
     return ndi
 
 
-def calc_ndvi(eopatch_data, satellite='landsat8', c=0):
+def calc_ndvi(eopatch_data, satellite='landsat8', c=0.01):
     """
     Calculates Normalized difference vegetation index.
     NDVI is a simple, but effective index for quantifying green vegetation.
@@ -67,7 +70,7 @@ def calc_ndvi(eopatch_data, satellite='landsat8', c=0):
 
 
 
-def calc_ndwi(eopatch_data, satellite='landsat8', c=0):
+def calc_ndwi(eopatch_data, satellite='landsat8', c=0.01):
     """
     Calculates Normalized Difference Water Index.
     The NDWI is used to monitor changes related to water content in water bodies.
@@ -110,21 +113,20 @@ def calc_ndwi(eopatch_data, satellite='landsat8', c=0):
     ndwi = normalized_difference_index(_green_band, _nir_band, c=c)
 
     return ndwi
-def get_lst(eopatch_data,satellite='landsat8'):
+
+def calc_lst(eopatch_data,satellite='landsat8'):
     '''
     Calculates the Land surface temperature which is is the radiative skin temperature of the land surface,
     as measured in the direction of the remote sensor.
     Currently only implemented for landsat8
-
     Args:
         param eopatch_data: Original Data tensor.
         type eopatch_data: np.ndarray, shape(time,image_width,image_height, bands). There should be 12 bands.
         
         param satellite: Satellite Name.
-        type satellite: str, 'landsat8', 'landsat5', 'landsat7' or 'sentinel'.
+        type satellite: str, 'landsat8', 'landsat5', 'landsat7'.
     
     return LST matrix 
-
     '''
     if satellite=='landsat8':
         NDVI_REF = calc_ndvi(eopatch_data)

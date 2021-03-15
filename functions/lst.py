@@ -50,7 +50,6 @@ def LSE(NDVI):
 
     return vEm
 
-
 def mono_LST(B_TEMP, B_LSE):
     """ This functions returns Land surface temperature(Kelvin) for a satellite image computed using Mono-window algorithm
         using brightness temperature matrix
