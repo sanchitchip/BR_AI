@@ -1,10 +1,9 @@
-import matplotlib.pyplot as plt
 import numpy as np
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 import logging
 from matplotlib.colors import Normalize
-
-
+import matplotlib.pyplot as plt
+import plotly.express as px
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
 def plot_ndi(image, factor=1.0, clip_range=None, is_bar=True, **kwargs):
@@ -89,12 +88,24 @@ def plot_all_LST(True_Image,LST,date):
     vSze = True_Image.shape[0]
     for i in range(vSze):
         plot_LST_true(True_Image[i],LST[i],date[i],cmp = None )
-<<<<<<< HEAD
 
 
+def plot_dash_line(df,select_index,height=260):
+    """[summary]
 
+    Args:
+        df ([type]): [description]
+        select_index ([type]): [description]
+        height (int, optional): [description]. Defaults to 240.
 
-
+    Returns:
+        [type]: [description]
+    """
+    fig = px.line(df.iloc[select_index],labels={'index':'Time'}) 
+    fig.update_yaxes(autorange=True,automargin=True)
+    fig.update_layout(
+        showlegend=False,
+        height=height,
+    margin=dict(r=0, l=0, t=0.3, b=0.1),)
     
-=======
->>>>>>> origin/main
+    return fig
