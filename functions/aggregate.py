@@ -46,7 +46,7 @@ def get_index_plot_data(island_aggregate_data:list,timestamp:list,bbox:list,inde
             if index_name=='ndwi':
                 index_data_one_land_one_year = nd_index.calc_ndwi(data_one_land_one_year)
             if index_name=='temp':
-                index_data_one_land_one_year = 0
+                index_data_one_land_one_year = nd_index.calc_lst(data_one_land_one_year) 
 
             # create xarray
             # xr_time = [sub_year for sub_year in years_timestamp if sub_year.year==year]
@@ -90,3 +90,29 @@ def get_plot_coord(bbox:list,island_aggregate_data:list,filter_shape=20)->list:
         coord_data.append(coord_sub_dict)
     
     return coord_data
+
+    
+def get_line_data(df,type='mean'):
+    """[summary]
+
+    Args:
+        df ([type]): [description]
+        type (str, optional): [description]. Defaults to 'mean'.
+
+    Returns:
+        [type]: [description]
+    """
+    # copy data
+    return_df = df.copy(deep=True)
+    row,column = df.shape
+    if type == 'max':
+        fun = np.max
+    if type == 'mean':
+        fun = np.mean
+    if type == 'min':
+        fun = np.min
+    for r in range(row):
+        for c in range(column):
+            return_df.iloc[r,c] = fun(df.iloc[r,c])
+    
+    return return_df
