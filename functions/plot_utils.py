@@ -142,7 +142,7 @@ def plot_dash_line(df,select_index,height=260):
     margin=dict(r=0, l=0, t=0.3, b=0.1),)
     
     return fig
-
+ 
 def plot_islands(original,lst,detected_island,limit=None,enhance_radius=False):
     """
     Function which plots all satellite image and there corresponding land surface temperature. 
