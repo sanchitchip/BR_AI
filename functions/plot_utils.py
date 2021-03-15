@@ -60,8 +60,27 @@ def plot_truecolor(image, factor=2.5, clip_range=[0,1],is_bar=False):
     ax.set_xticks([])
     ax.set_yticks([])
     
-
+# testing ideas:
+# 1.) check input arguments data type
+# 2.) check if any inputs arguments are None and if yes return value error
 def plot_LST_true(True_Image,LST,date,cmp=None):
+    """
+    Function which plots satellite image and its corresponding land surface temperature as subplots.
+    Args:
+        param True_Image: numpy array(RGB) of satellite image of shape (h,w,3) 
+        type factor: np.array.
+        
+        param LST: LST matrix of the corresponding satellite image of shape (h,w).
+        type LST: np.array.
+        
+        param date: timestamp info of the satellite image so can be added in the plot.
+        type is_bar: datetime.datetime .
+        
+        param cmap: colormap for the plot. If None looks at the max and min value of the LST matrix
+        type cmap: matplotlib cmap object
+        
+    """    
+    
     # to remove the clipping warning/logging. 
     logger = logging.getLogger()
     old_level = logger.level
@@ -81,6 +100,20 @@ def plot_LST_true(True_Image,LST,date,cmp=None):
     plt.show()
 
 def plot_all_LST(True_Image,LST,date):
+    """
+    Function which plots all satellite image and there corresponding land surface temperature. 
+    This function will only work for Jupyter Notebooks for .py u will have to write subplots.
+    Args:
+        param True_Image: numpy array(RGB) of satellite image of shape (n,h,w,3) where n is number of images
+        type factor: np.array.
+        
+        param LST: LST matrix of the corresponding satellite image of shape (n,h,w). where n is number of images
+        type LST: np.array.
+        
+        param date: timestamp info of the satellite image so can be added in the plot.
+        type is_bar: datetime.datetime .        
+    """
+    
     vmax = np.max(LST)
     vmin = np.min(LST)
     cmp = (vmax,vmin)
@@ -109,3 +142,50 @@ def plot_dash_line(df,select_index,height=260):
     margin=dict(r=0, l=0, t=0.3, b=0.1),)
     
     return fig
+
+def plot_islands(original,lst,detected_island,limit=None,enhance_radius=False):
+    """
+    Function which plots all satellite image and there corresponding land surface temperature. 
+    This function will only work for Jupyter Notebooks for .py u will have to write subplots.
+    Args:
+        param original: numpy array(RGB) of satellite image of shape (n,h,w,3) where n is number of images
+        type factor: np.array.
+        
+        param LST: LST matrix of the corresponding satellite image of shape (n,h,w). where n is number of images
+        type LST: np.array.
+        
+        param detected_island: list of the coordinates of detected island which are to be plotted in the original 
+        and its corresponding image.
+        type detected_island:  list of tuple.
+        
+        param enhance_radius: whether to plot circle with bigger radius instead of the one computed by hessian algorithm.
+        type enhance_radius: boolean  .
+        
+    """
+    
+    fig, axes = plt.subplots(1, 2, figsize=(40, 40), sharex=True, sharey=True)
+    ax = axes.ravel()
+    #plt.imshow(vLST[0],cmap='gray')
+    ax[0].imshow(original)
+    ax[1].imshow(lst,cmap=plt.cm.jet)
+    for blob in detected_island:
+        y, x, r = blob
+        if limit is None:
+            if enhance_radius:
+                c = plt.Circle((x, y), r*3, color='green', linewidth=2, fill=False)
+            else:
+                c =plt.Circle((x, y), r, color='green', linewidth=2, fill=False)
+            c2 = plt.Circle((x, y), r, color='green', linewidth=2, fill=False)
+            ax[0].add_patch(c)
+            ax[1].add_patch(c2)
+        else:            
+            if r>limit:
+                if enhance_radius:
+                    print("here")
+                    c = plt.Circle((x, y), r*3, color='green', linewidth=2, fill=False)
+                else:
+                    c =plt.Circle((x, y), r, color='green', linewidth=2, fill=False)
+                c2 = plt.Circle((x, y), r, color='green', linewidth=2, fill=False)
+                ax[0].add_patch(c)
+                ax[1].add_patch(c2)
+    plt.show()
