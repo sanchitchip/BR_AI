@@ -122,6 +122,30 @@ def get_landsat8_range(aoi=None,config=None,year_range=None,
     Download uncorrupted landsat8 image for a given time range,cloud coverage.
     This function makes sure that you don't get any image which requires Mask data or have certain pixels
     with missing data.
+
+    Args:
+        param aoi: Area of Interest.
+        type aoi: shapely.geometry.multipolygon.MultiPolygon.
+        
+        param year_range: list of range of year for which we want to download image.
+        type time_interval: list
+
+        param month: list of range of months for which we want to download image.
+        type time_interval: list
+
+        param date_range: list of range of dates for which we want to download image.
+        type time_interval: list
+
+        param maxcc: Maximum cloud coverage.
+        type maxcc: float.
+        
+        param config: 
+        type config: sentinelhub.config.SHConfig
+        
+    Returns:
+        A eopatch datatable, which has the image data, timestamps data
+        image data: np.ndarray, shape(time,image_width,image_height, bands)
+    
     '''
     vtime_interval = []
     for idx,val in enumerate(year_range):
@@ -134,7 +158,7 @@ def get_landsat8_range(aoi=None,config=None,year_range=None,
     vcloud_coverage=maxcc
     for i in range(len(vtime_interval)):
         try:
-            vband = get_landsat8(time_interval=vtime_interval[i],
+            vband = get_landsat8(aoi=aoi,time_interval=vtime_interval[i],
                                               maxcc=vcloud_coverage,
                                               config=config)
             vM = vband.mask['dataMask']
