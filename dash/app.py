@@ -14,7 +14,7 @@ from xarray.core.indexing import is_fancy_indexer
 sys.path.insert(1, "../functions/")
 import io_pipe
 import nd_index
-import filter
+import get_coord
 import aggregate
 import plot_utils
 
@@ -31,46 +31,54 @@ time = np.load("../data/timestamp.npz",allow_pickle =True)
 
 # create data frame for choropleth map 
 tem_geometry = [geometry.box(*pixel_box) for pixel_box in data["bbox"]]
-
 geo_df = gpd.GeoDataFrame({
     'value': data["Temp"].max(axis=1),
     'geometry': tem_geometry
 })
 
-island_aggregate_data = filter.get_island_submatrix(data["data"],data['blobs'],dim_error=True)
+# create data for line-chart and index plots
+
+# aggregate data into one list
+island_aggregate_data = get_coord.get_island_submatrix(data["data"],data['blobs'],dim_error=True)
+# prepare index map data
 ndvi_df = aggregate.get_index_plot_data(island_aggregate_data=island_aggregate_data,timestamp=time["timestamp"],bbox=data['bbox'])
 ndwi_df = aggregate.get_index_plot_data(island_aggregate_data=island_aggregate_data,timestamp=time["timestamp"],bbox=data['bbox'],index_name='ndwi') 
 lst_df = aggregate.get_index_plot_data(island_aggregate_data=island_aggregate_data,timestamp=time["timestamp"],bbox=data['bbox'],index_name='temp') 
-
+# prepare index line data
 ndvi_line_df = aggregate.get_line_data(ndvi_df,type='max')
 ndwi_line_df = aggregate.get_line_data(ndwi_df,type='max')
 lst_line_df = aggregate.get_line_data(lst_df,type='max')
-
-
+# get the coordinate of blobls
 coord_data = aggregate.get_plot_coord(bbox=data['bbox'],island_aggregate_data=island_aggregate_data)
+# prepare timestamp
 years_timestamp = [dt.date(i) for i in time['timestamp']]
-
-
+# mapbox token
 mapbox_access_token = "pk.eyJ1IjoicGxvdGx5bWFwYm94IiwiYSI6ImNrOWJqb2F4djBnMjEzbG50amg0dnJieG4ifQ.Zme1-Uzoi75IaFbieBDl3A"
 
 
-bands=['B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B09','B10', 'B11', 'BQA']
-# bands = ['B01', 'B02', 'B03', 'B04', 'B05', 'B06',
-        #  'B07', 'B08', 'B8A', 'B09', 'B10', 'B11', 'B12']
+# bands=['B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B09','B10', 'B11', 'BQA']
+# bands = ['B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B10', 'B11', 'B12']
 
-YEARS = [2014, 2015, 2016, 2017, 2018]
-         
 
-MONTHs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+# initialization data
+# Get YEARS range from timestamp
+YEARS = [single_time.year for single_time in years_timestamp]
+# Remove duplicate YEARS
+YEARS = list(dict.fromkeys(YEARS))
 
+
+# create initial_figure for choropleth_mapbox
+ 
 initial_fig = px.choropleth_mapbox(geo_df,
                                    geojson=geo_df.geometry,
                                    locations=geo_df.index,
+                                   color_continuous_scale="Reds",
                                    color="value",
                                    center={"lat": 48.286602, "lon": 11.58578},
                                    mapbox_style="open-street-map",
                                    opacity=0.5,
                                    zoom=8.5)
+# adjust layout
 initial_fig.update_layout(
     mapbox=dict(
         accesstoken=mapbox_access_token,
@@ -81,10 +89,7 @@ initial_fig.update_layout(
     dragmode="lasso",
 )
 
-
-
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 # Build App
 app = dash.Dash(
     __name__,
@@ -93,7 +98,6 @@ app = dash.Dash(
     ],
 )
 # App layout
-
 app.layout = html.Div(
     id="root",
     children=[
@@ -101,7 +105,7 @@ app.layout = html.Div(
             id="header",
             children=[
                 html.Img(id="logo", src=app.get_asset_url("dash-logo.png")),
-                html.H4(children="BR_AI description"),
+                html.H4(children="BR AI and Automation Lab: Satellite Imagery"),
                 html.P(
                     id="description",
                     children="Demo for Urban Heat Island ",
@@ -118,11 +122,11 @@ app.layout = html.Div(
                         html.Div(
                             id="heatisland-container",
                             children=[
+                                # here is the title for the choropleth map, if you need to change the title,
+                                # please uncomment the callbacks for 'choropleth map' .  
                                 html.P(
-                                    "Heat island detection in year {0}".format(
-                                        min(YEARS)
-                                    ),
-                                    id="heatisland-title",
+                                    "Heat island detection from {0} to {1}".format(YEARS[0],YEARS[-1]),
+                                    id="BR AI and Automation Lab: Satellite Imagery-title",
                                 ),
                                 dcc.Graph(
                                     id="munich-choropleth",
@@ -154,16 +158,6 @@ app.layout = html.Div(
                             },
                         ),
 
-                        # html.P(id="months-select-text", children="Select Months:"),
-                        # dcc.RangeSlider(
-                        #     id='month-range-slider',
-                        #     min=1,
-                        #     max=12,
-                        #     step=1,
-                        #     value=[7,9]
-                        # ),
-                        # html.Div(id='range-slider-text'),
-                        
                         dcc.Tabs(id='tabs-index',
                                 value='ndvi',
                                 children=[
@@ -173,15 +167,7 @@ app.layout = html.Div(
                                 ]
                         ),
                         html.Div(id='tabs-content'),
-                        # dcc.Dropdown(
-                        #     id="index-dropdown",
-                        #     options=[
-                        #         {'label': 'NDVI', 'value': 'ndvi'},
-                        #         {'label': 'NDWI', 'value': 'ndwi'}
-                        #     ],
-                        #     value="ndvi",
-                        # ),
-
+                        
                         dcc.Graph(
                             id="selected-data",
                             
@@ -217,12 +203,12 @@ def render_content(tab,year):
 
 
 
-# Year callback
-@app.callback(Output("heatisland-title", "children"), [Input("years-slider", "value")])
-def update_map_title(year):
-    return "Heat island detection in year {0}".format(
-        year
-    )
+# choropleth callback
+# @app.callback(Output("heatisland-title", "children"),  [Input("munich-choropleth", "selectedData")])
+# def update_map_title(island_index):
+#     return "Heat island detection in year {0}".format(
+#         year
+#     )
 
 
 # add graphs in Tabs
@@ -237,47 +223,20 @@ def add_tab_graph(year_value, tabs_label,island_index):
         select_index = island_index['points'][0]["pointIndex"]
     except (TypeError, IndexError):
         select_index = 0
-    
     if str(tabs_label) == "ndvi":
-        xr_data = ndvi_df.loc[select_index,str(year_value)]
-        xr_time = [sub_year for sub_year in years_timestamp if sub_year.year==year_value]
-        space_lati = coord_data[select_index]['space_lati']
-        space_long = coord_data[select_index]['space_long']
-        xr_array = xr.DataArray(xr_data,coords=[xr_time,space_lati[::-1],space_long],dims=['time','lati','long'])
-        fig=px.imshow(xr_array,animation_frame='time',zmin=-1,zmax=1,color_continuous_scale='Greens')
-        fig.update_yaxes(autorange=True,automargin=True)
-        fig.update_layout(
-            height=300,
-        margin=dict(r=0, l=0, t=0.5, b=0.1),)
+        fig = plot_utils.plot_dash_index(df=ndvi_df,select_index=select_index,year_value=year_value,years_timestamp=years_timestamp,coord_data=coord_data,height=300)
         return fig
 
     if str(tabs_label) == "ndwi":
-        xr_data = ndwi_df.loc[select_index,str(year_value)]
-        xr_time = [sub_year for sub_year in years_timestamp if sub_year.year==year_value]
-        space_lati = coord_data[select_index]['space_lati']
-        space_long = coord_data[select_index]['space_long']
-        xr_array = xr.DataArray(xr_data,coords=[xr_time,space_lati[::-1],space_long],dims=['time','lati','long'])
-        fig=px.imshow(xr_array,animation_frame='time',zmin=-1,zmax=1,color_continuous_scale='Blues')
-        fig.update_yaxes(autorange=True,automargin=True)
-        fig.update_layout(
-            height=300,
-            margin=dict(r=0, l=0, t=0.5, b=0.3),)
+        fig = plot_utils.plot_dash_index(df=ndwi_df,select_index=select_index,year_value=year_value,years_timestamp=years_timestamp,coord_data=coord_data,height=300,color_continuous_scale='Blues')
         return fig
     
     if str(tabs_label) == "temp":
-        xr_data = lst_df.loc[select_index,str(year_value)]
-        xr_time = [sub_year for sub_year in years_timestamp if sub_year.year==year_value]
-        space_lati = coord_data[select_index]['space_lati']
-        space_long = coord_data[select_index]['space_long']
-        xr_array = xr.DataArray(xr_data,coords=[xr_time,space_lati[::-1],space_long],dims=['time','lati','long'])
-        fig=px.imshow(xr_array,animation_frame='time',zmin=20,zmax=45,color_continuous_scale='Reds')
-        fig.update_yaxes(autorange=True,automargin=True)
-        fig.update_layout(
-            height=300,
-            margin=dict(r=0, l=0, t=0.5, b=0.3),)
+        fig = plot_utils.plot_dash_index(df=lst_df,select_index=select_index,year_value=year_value,years_timestamp=years_timestamp,coord_data=coord_data,height=300,color_continuous_scale='Reds')
         return fig
     return
 
+# add line chart
 @app.callback(
      Output("index-line", "figure"),
     [Input("tabs-index", "value")],
