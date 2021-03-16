@@ -124,16 +124,21 @@ def plot_all_LST(True_Image,LST,date):
 
 
 def plot_dash_line(df,select_index,height=260):
-    """[summary]
+    """Function used to plot dash line. 
 
     Args:
-        df ([type]): [description]
-        select_index ([type]): [description]
-        height (int, optional): [description]. Defaults to 240.
+        param df : pd.DataFrame contains all plot data. df has the shape (Number of blobs, Timestamps )
+        type df: pd.DataFrame
+        
+        param select_index: the index of blobs
+        type select_index: int 
+        
+        height (int, optional): This is the default value of height of line map. Defaults to 260.
 
     Returns:
-        [type]: [description]
+        fig[px.figure]: the corresponding line plot will be return.
     """
+    
     fig = px.line(df.iloc[select_index],labels={'index':'Time'}) 
     fig.update_yaxes(autorange=True,automargin=True)
     fig.update_layout(
