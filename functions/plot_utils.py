@@ -4,7 +4,7 @@ from matplotlib.colors import Normalize
 import matplotlib.pyplot as plt
 import plotly.express as px
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-
+import xarray as xr
 
 def plot_ndi(image, factor=1.0, clip_range=None, is_bar=True, **kwargs):
     """
@@ -123,7 +123,7 @@ def plot_all_LST(True_Image,LST,date):
         plot_LST_true(True_Image[i],LST[i],date[i],cmp = None )
 
 
-def plot_dash_line(df,select_index,height=260):
+def plot_dash_line(df,select_index,height=260,color = 'green'):
     """Function used to plot dash line. 
 
     Args:
@@ -148,6 +148,41 @@ def plot_dash_line(df,select_index,height=260):
     
     return fig
  
+def plot_dash_index(df,select_index,year_value,years_timestamp,coord_data,height=300,color_continuous_scale='Greens'):
+    """Function used to plot dash index image. 
+
+    Args:
+        param df : pd.DataFrame contains all plot data. df has the shape (Number of blobs, Timestamps )
+        type df: pd.DataFrame
+        
+        param select_index: the index of blobs
+        type select_index: int
+        
+        param year_value: the index of blobs
+        type year_value: str or int
+        
+        param years_timestamp: the index of blobs
+        type years_timestamp: str
+        
+        height (int, optional): This is the default value of height of line map. Defaults to 260.
+
+    Returns:
+        fig[px.figure]: the corresponding index plot will be return.
+    """
+    xr_data = df.loc[select_index,str(year_value)]
+    xr_time = [sub_year for sub_year in years_timestamp if sub_year.year==year_value]
+    space_lati = coord_data[select_index]['space_lati']
+    space_long = coord_data[select_index]['space_long']
+    xr_array = xr.DataArray(xr_data,coords=[xr_time,space_lati[::-1],space_long],dims=['time','lati','long'])
+    fig=px.imshow(xr_array,animation_frame='time',color_continuous_scale=color_continuous_scale)
+    fig.update_yaxes(autorange=True,automargin=True)
+    fig.update_layout(
+        height=300,
+    margin=dict(r=0, l=0, t=0.5, b=0.1),)
+
+    return fig
+ 
+
 def plot_islands(original,lst,detected_island,limit=None,enhance_radius=False):
     """
     Function which plots all satellite image and there corresponding land surface temperature. 
