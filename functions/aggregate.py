@@ -12,20 +12,31 @@ from datetime import datetime as dt
 from functools import reduce, partial
 import xarray as xr
 
-
 def get_index_plot_data(island_aggregate_data:list,timestamp:list,bbox:list,index_name='ndvi',YEARS = [2014, 2015, 2016, 2017, 2018]):
-    """[Creating Data.Frame for index plot]
-
+    """This function will create a data frame for index plot. 
+    The row of data frame represents the index of blobs(heat island area), and
+    the column of the data frame represents the timestamp.
+    
     Args:
-        island_aggregate_data (list): [description]
-        timestamp (list): [description]
-        bbox (list): [description]
-        index_name (str, optional): [description]. Defaults to 'ndvi'.
-        YEARS (list, optional): [description]. Defaults to [2014, 2015, 2016, 2017, 2018].
+        param island_aggregate_data: each element of list is a 4 dim-[time,weight,height,bands]np.array.
+        type data: list.
+        
+        param timestamp: each element of the timstamp is the the timestamp of the data, can get from the EOpatch.
+        type timestamp: list.
+        
+        param bbox: filter size of AOI.
+        type bbox: list.
 
+        param index_name: the index want to calculate]. Defaults to 'ndvi'.
+        type index_name: list.
+        
+        param YEARS:the years you want to include. Will be the column name 
+        type YEARS: list
     Returns:
-        [type]: [description]
+       pd.DataFrame: each element of The row of data frame represents the index of blobs(heat island area), and
+    the column of the data frame represents the timestamp.
     """
+    
     # get the timestamp for the data
     years_timestamp = [dt.date(i) for i in timestamp]
 
@@ -60,19 +71,26 @@ def get_index_plot_data(island_aggregate_data:list,timestamp:list,bbox:list,inde
 
     return plot_df
 
-
-
-
 def get_plot_coord(bbox:list,island_aggregate_data:list,filter_shape=20)->list:
-    """[get the coord for xarray]
+    """[get the coord for each blobs, used for prepare plot.]
 
     Args:
-        bbox (list): [description]
-        heat_data (list): [description]
+        param island_aggregate_data: each element of list is a 4 dim-[time,weight,height,bands]np.array.
+        type data: list.
+        
+        param timestamp: each element of the timstamp is the the timestamp of the data, can get from the EOpatch.
+        type timestamp: list.
+        
+        param bbox: filter size of AOI.
+        type bbox: list.
 
+        param filter_shape: default = 20
+        type filter_shape: int. 
+        
     Returns:
-        list: [return a list,whose element is all the  information of coord of one area]
-    """
+       list: each element of the list is the coordinate for the xarray.
+    """    
+    
     _bbox = [list(i) for i in bbox]
     coord_data = []
     for index,sub_data in enumerate(island_aggregate_data):
@@ -90,18 +108,27 @@ def get_plot_coord(bbox:list,island_aggregate_data:list,filter_shape=20)->list:
         coord_data.append(coord_sub_dict)
     
     return coord_data
-
+    
     
 def get_line_data(df,type='mean'):
-    """[summary]
+    """get the data for line chart, each element is only one single value,
+    representing the index value of corresponding blob index in the corresponding year.
 
     Args:
-        df ([type]): [description]
-        type (str, optional): [description]. Defaults to 'mean'.
+    param df: each element of The row of data frame represents the index of blobs(heat island area), and
+    the column of the data frame represents the timestamp].
+    type df: pd.DataFrame
 
+    param type: the type of calculate the index of the area.
+                'mean' represents use the mean value as the whole area to plot the line chart.
+    type type: string
+    
     Returns:
-        [type]: [description]
+       pd.DataFrame: each element of The row of data frame represents the index value of blobs(heat island area), and
+    the column of the data frame represents the timestamp.
     """
+    # assert index
+    assert type in ['mean','max','min'], "Please enter 'mean','max' or 'min'"
     # copy data
     return_df = df.copy(deep=True)
     row,column = df.shape
