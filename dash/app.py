@@ -45,9 +45,9 @@ ndvi_df = aggregate.get_index_plot_data(island_aggregate_data=island_aggregate_d
 ndwi_df = aggregate.get_index_plot_data(island_aggregate_data=island_aggregate_data,timestamp=time["timestamp"],bbox=data['bbox'],index_name='ndwi') 
 lst_df = aggregate.get_index_plot_data(island_aggregate_data=island_aggregate_data,timestamp=time["timestamp"],bbox=data['bbox'],index_name='temp') 
 # prepare index line data
-ndvi_line_df = aggregate.get_line_data(ndvi_df,type='max')
-ndwi_line_df = aggregate.get_line_data(ndwi_df,type='max')
-lst_line_df = aggregate.get_line_data(lst_df,type='max')
+ndvi_line_df = aggregate.get_line_data(ndvi_df,type='mean')
+ndwi_line_df = aggregate.get_line_data(ndwi_df,type='mean')
+lst_line_df = aggregate.get_line_data(lst_df,type='mean')
 # get the coordinate of blobls
 coord_data = aggregate.get_plot_coord(bbox=data['bbox'],island_aggregate_data=island_aggregate_data)
 # prepare timestamp

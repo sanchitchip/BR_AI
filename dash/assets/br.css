@@ -225,7 +225,6 @@ html {
     width: 100% !important;
     margin: 0;
 }
-
 body {
     font-size: 1.5rem; /* currently ems cause chrome bug misinterpreting rems on body element */
     line-height: 1.6;
@@ -234,11 +233,9 @@ body {
     color: #7fafdf;
     margin: 0;
 }
-
 #root {
     margin: 0;
 }
-
 @media (max-width: 550px) {
     #root {
         padding: 2rem;
