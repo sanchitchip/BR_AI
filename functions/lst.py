@@ -38,8 +38,12 @@ def LSE(NDVI):
     Returns: 
          returns the brightness temperature matrix(Kelvin) for the given satellite image.
     """
-    vEm = np.zeros(NDVI.shape)
+    if not isinstance(NDVI,np.ndarray):
+        raise TypeError('Please provide a  Numpy array for NDVI')
 
+    ## will add values for emmisivity in the zero array
+    vEm = np.zeros(NDVI.shape)
+    ## one of the standard algorithm used to calculate LSE.
     h, i, j = np.where(NDVI < 0.2)
     vEm[h, i, j] = 0.97
 
@@ -65,6 +69,14 @@ def mono_LST(B_TEMP, B_LSE):
     Returns: Land surface temperautre matrix.
     
     """
+    if not isinstance(B_TEMP,np.ndarray):
+        raise TypeError('Please provide a  Numpy array for Brightness Temperature')
+
+    if not isinstance(B_LSE,np.ndarray):
+        raise TypeError('Please provide a  Numpy array for LSE')
+
+    if B_TEMP.shape != B_LSE.shape:
+        raise ValueError("Brightness temperature and LSE have different shape.")
     # old way to compute LST
     # B_LST = (B_TEMP / 1) + (B10 * (B_TEMP/14380) * (np.log(B_LSE)))
     ## BETTER way to computer the LST.
@@ -86,6 +98,12 @@ def temperature_threshold(vdesired, blobs):
     Returns: returns numpy array of potential island candidates after threshold.
     
     """
+    if not isinstance(vdesired,np.ndarray):
+        raise TypeError('Please provide a  Numpy array for vdesired')
+ 
+    if not isinstance(blobs,list):
+        raise TypeError('Please provide a list of tuples for blobs')
+
     vfinal = []
     vrange = 10
     vper = np.percentile(vdesired, q=98)
