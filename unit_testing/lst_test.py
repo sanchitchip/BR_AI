@@ -1,7 +1,7 @@
 import sys
 import pytest
 sys.path.insert(1,"../functions/")
-import io_pipe
+#import io_pipe
 import nd_index
 from eolearn.core import EOPatch
 import numpy as np
