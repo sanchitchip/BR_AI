@@ -29,7 +29,7 @@ def get_coord_matrix(image_width,image_height,bbox):
     """
 
     #!!!!! be careful what does the width and height individually correspond to? long or lati?
-    if any([image_width,image_height,BBox]):
+    if image_width is None or image_height is None or BBox is None:
         raise TypeError("NoneType value in one of the arguments")
     if not isinstance(image_width,int):
         raise TypeError('Please provide a int for image height.')
@@ -66,7 +66,7 @@ def get_geoindex(geo_matrix, index_pixel):
     Returns: 
          returns the  geo coodinates of a coordinates of a given pixel in an image
     """
-    if any([geo_matrix,index_pixel]):
+    if geo_matrix is None or index_pixel is None:
         raise TypeError("NoneType value in one of the arguments")
     if not isinstance(geo_matrix,tuple):
         raise TypeError('Please provide a tuple for geo_matrix argument.')
@@ -104,7 +104,7 @@ def get_patch(geo_matrix,index_pixel,filter_size=20):
     """
     
     # geo = (long: image_width,lati: image_height)
-    if any([geo_matrix,index_pixel]):
+    if geo_matrix is None or index_pixel is None:
         raise TypeError("NoneType value in one of the arguments")
 
     if not isinstance(geo_matrix,tuple):
@@ -158,7 +158,7 @@ def make_bbox(geo_matrix,index_pixel,filter_size=20):
     Returns:
         returns bbox of the given geo coordinates
     """
-    if any([geo_matrix,index_pixel]):
+    if geo_matrix is None or index_pixel is None:
         raise TypeError("NoneType value in one of the arguments")
 #        raise TypeError
 
@@ -192,8 +192,8 @@ def get_bbox(geo_matrix,blobs,filter_size=20):
                           to which geo-coordinates.
         type geo_matrix: tuple of 2 list.
         
-        param blobs: list of islands candidate detected using hessian algorithm
-        type blobs: list of tuple.
+        param blobs: array of islands candidate detected using hessian or gaussian algorithm
+        type blobs:  np.ndarray.
         
         param filter_size: filter size of AOI.
         type filter_size: int.
@@ -201,14 +201,14 @@ def get_bbox(geo_matrix,blobs,filter_size=20):
     Returns:
         returns bbox of the given geo coordinates
     """
-    if any([geo_matrix,blobs]):
+    if geo_matrix is None or blobs is None:
         raise TypeError("NoneType value in one of the arguments")
 
     if not isinstance(geo_matrix,tuple):
         raise TypeError('Please provide a tuple for geo_matrix argument.')
  
-    if not isinstance(blobs,tuple):
-        raise TypeError('Please provide a tuple for blobs argument.')
+    if not isinstance(blobs,np.ndarray):
+        raise TypeError('Please provide a numpy array for blobs argument.')
 
     vfinal=[]
     for i in range(len(blobs)):
@@ -246,8 +246,8 @@ def get_island_submatrix(data,blobs,filter_shape=20,dim_error=False):
     if not isinstance(data,np.ndarray):
         raise TypeError('Please provide a numpy array for data argument.')
  
-    if not isinstance(blobs,tuple):
-        raise TypeError('Please provide a tuple for blobs.')
+    if not isinstance(blobs,np.ndarray):
+        raise TypeError('Please provide a numpy array for blobs.')
     vfin = []
     for i in range(len(blobs)):
         y,x,_ = blobs[i]

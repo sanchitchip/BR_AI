@@ -1,4 +1,7 @@
 import numpy as np
+from skimage.feature import blob_dog, blob_log, blob_doh
+from skimage.color import rgb2gray
+from sklearn.preprocessing import scale
 
 def BrightnessTemp(B, ADD_BAND, MULT_BAND, k1, k2):
     # Reference: https://www.usgs.gov/core-science-systems/nli/landsat/using-usgs-landsat-level-1-data-product
@@ -149,3 +152,36 @@ def threshold_hessian(desired,blobs,filter_size=10):
     vfinal = np.array(vfinal)
     return vfinal
 
+
+
+
+def island_detection(LST,method= 'doh',thresholding=True):
+    """ This functions returns list of possible heat island candidates for a LST of a satellite image. in the first step it computes possible candidate using either difference of gaussian,
+        difference of hessian or laplacian of gaussian. Finally it will remove some bad candidates of detected islands using thresholding.
+    Args:
+        param LST: Land surface temperature np matrix of the satellite image 
+                       using sentinel hub API
+        type LST: numpy array
+
+        param method: One of the three possible algorithm: LOH,DOG,DOH. 
+        type method: string
+        
+        param thresholding: boolean argument whether to use thresholding or not. 
+        type method: boolean
+        
+    Returns: numpy array of possible islands candidate.    
+    """
+    vgray = rgb2gray(LST)
+    vgray = scale(vgray,axis=0, with_mean=True, copy=True)
+    if method== "dog":
+        blobs=blob_dog(vgray, max_sigma=9, threshold=.1)
+    if method== "doh":
+        blobs = blob_doh(vgray, max_sigma=9, threshold=.1)
+    if method== "log":
+        blobs = blob_log(vgray, max_sigma=15, num_sigma=9, threshold=.1)
+
+    if thresholding:
+        blobs = threshold_hessian(LST,blobs)
+        
+    return blobs
+    
