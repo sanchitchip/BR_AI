@@ -1,16 +1,9 @@
 from eolearn.core import EOPatch
 import numpy as np
 import sys
-import pdb
 sys.path.insert(1,'../functions')
-import io_pipe
-import nd_index
-import lst
-import plot_utils
 from matplotlib import pyplot as plt
-import geopandas as gpd
 from sentinelhub import BBox, CRS, DataCollection, SHConfig
-import pdb
 
 
 ## -- for testing 
@@ -493,13 +486,13 @@ if __name__ == '__main__':
 
  ax.add_patch(c)
  plt.show()
- _munich = gpd.read_file('../geojson/munich.geojson')
- _interested_area = _munich.geometry.unary_union
- _bbox_interested_area = _interested_area.bounds
- _roi_bbox = BBox(bbox=_bbox_interested_area, crs=CRS.WGS84)
- vM,_ = get_coord_matrix(vImg.shape[2],vImg.shape[1],_roi_bbox)
- vROI = make_bbox(vM,vCoord)
- print(vROI)
+# _munich = gpd.read_file('../geojson/munich.geojson')
+# _interested_area = _munich.geometry.unary_union
+# _bbox_interested_area = _interested_area.bounds
+# _roi_bbox = BBox(bbox=_bbox_interested_area, crs=CRS.WGS84)
+# vM,_ = get_coord_matrix(vImg.shape[2],vImg.shape[1],_roi_bbox)
+# vROI = make_bbox(vM,vCoord)
+# print(vROI)
  ## longitude is width, latitude is height
  #pdb.set_trace()
 

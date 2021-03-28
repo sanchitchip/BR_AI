@@ -82,6 +82,13 @@ def plot_LST_true(True_Image,LST,date,cmp=None):
     """    
     
     # to remove the clipping warning/logging. 
+    if True_Image is None or LST is None or date is None:
+        raise TypeError("NoneType value in one of the arguments")
+    if not isinstance(True_Image,np.ndarray):
+        raise TypeError('Please provide a np array for true image.')
+ 
+    if not isinstance(LST,np.ndarray):
+        raise TypeError('Please provide a np array for lsr.')
     logger = logging.getLogger()
     old_level = logger.level
     logger.setLevel(100)
@@ -113,7 +120,14 @@ def plot_all_LST(True_Image,LST,date):
         param date: timestamp info of the satellite image so can be added in the plot.
         type is_bar: datetime.datetime .        
     """
-    
+    if True_Image is None or LST is None or date is None:
+        raise TypeError("NoneType value in one of the arguments")
+    if not isinstance(True_Image,np.ndarray):
+        raise TypeError('Please provide a np array for true image.')
+ 
+    if not isinstance(LST,np.ndarray):
+        raise TypeError('Please provide a np array for lsr.')
+ 
     vmax = np.max(LST)
     vmin = np.min(LST)
     cmp = (vmax,vmin)
@@ -202,6 +216,15 @@ def plot_islands(original,lst,detected_island,limit=None,enhance_radius=False):
         type enhance_radius: boolean  .
         
     """
+    if original is None or lst is None or detected_island is None:
+        raise TypeError("NoneType value in one of the arguments")
+    if not isinstance(original,np.ndarray):
+        raise TypeError('Please provide a numpy array for original.')
+ 
+    if not isinstance(lst,np.ndarray):
+        raise TypeError('Please provide a numpy array for lst.')
+    if not isinstance(detected_island,tuple):
+        raise TypeError('Please provide a tuple for detected_island.')
     
     fig, axes = plt.subplots(1, 2, figsize=(40, 40), sharex=True, sharey=True)
     ax = axes.ravel()

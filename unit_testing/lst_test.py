@@ -1,4 +1,3 @@
-import geopandas as gpd
 import sys
 import pytest
 sys.path.insert(1,"../functions/")
@@ -10,7 +9,9 @@ import pdb
 import lst
 
 landsat8_eopatch = EOPatch.load('../data/ld8_example')
-landsat8_data = io_pipe.get_raw(landsat8_eopatch)
+
+landsat8_data = landsat8_eopatch.data['L1C_data']
+#landsat8_data = io_pipe.get_raw(landsat8_eopatch)
 
 #pdb.set_trace()
 #### loading the necessary files so that don't have to fetch them.
