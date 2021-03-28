@@ -223,8 +223,8 @@ def plot_islands(original,lst,detected_island,limit=None,enhance_radius=False):
  
     if not isinstance(lst,np.ndarray):
         raise TypeError('Please provide a numpy array for lst.')
-    if not isinstance(detected_island,tuple):
-        raise TypeError('Please provide a tuple for detected_island.')
+    if not isinstance(detected_island,np.ndarray):
+        raise TypeError('Please provide a numpy array for detected_island.')
     
     fig, axes = plt.subplots(1, 2, figsize=(40, 40), sharex=True, sharey=True)
     ax = axes.ravel()
