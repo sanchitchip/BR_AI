@@ -22,12 +22,14 @@ def test_coord_matrix_input_type2():
 def test_geoindex_Noneerror():
     with pytest.raises(TypeError) as msg:
         get_coord.get_geoindex(None,(24,56))
+    print(str(msg.value))
     assert 'NoneType' in str(msg.value)
 
-def test_geoindex_Noneerror():
+def test_geoindex_Noneerror2():
     val = ((1,2,3),(4,67,8))
     with pytest.raises(TypeError) as msg:
         get_coord.get_geoindex(val,None)
+    print(str(msg.value))
     assert 'NoneType' in str(msg.value)
 
 
