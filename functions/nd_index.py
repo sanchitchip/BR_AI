@@ -47,6 +47,13 @@ def calc_ndvi(eopatch_data, satellite='landsat8', c=0.01):
         type c: float.
     return: ndvi
     """
+    if eopatch_data is None or satellite is None:
+        raise TypeError("NoneType value in one of the arguments")
+    if not isinstance(eopatch_data,np.ndarray):
+        raise TypeError('Please provide a numpy array for eopatch_data')
+ 
+    if not isinstance(satellite,str):
+        raise TypeError('Please provide a string for satellite.')
     satellite = satellite.lower()
 
     if satellite not in ['landsat8', 'landsat5', 'landsat7', 'sentinel']:
@@ -97,6 +104,13 @@ def calc_ndwi(eopatch_data, satellite='landsat8', c=0.01):
         type c: float.
     return: ndvi
     """
+    if eopatch_data is None or satellite is None:
+        raise TypeError("NoneType value in one of the arguments")
+    if not isinstance(eopatch_data,np.ndarray):
+        raise TypeError('Please provide a numpy array for eopatch_data')
+ 
+    if not isinstance(satellite,str):
+        raise TypeError('Please provide a string for satellite.')
     satellite = satellite.lower()
 
     if satellite not in ['landsat8', 'landsat5', 'landsat7', 'sentinel']:
@@ -128,6 +142,13 @@ def calc_lst(eopatch_data,satellite='landsat8'):
     
     return LST matrix 
     '''
+    if eopatch_data is None or satellite is None:
+        raise TypeError("NoneType value in one of the arguments")
+    if not isinstance(eopatch_data,np.ndarray):
+        raise TypeError('Please provide a numpy array for eopatch_data')
+ 
+    if not isinstance(satellite,str):
+        raise TypeError('Please provide a string for satellite.')
     if satellite=='landsat8':
         NDVI_REF = calc_ndvi(eopatch_data)
         B10 = eopatch_data[:,:,:,9]-273
