@@ -22,11 +22,11 @@ def test_plot_lst_true_Noneerror():
     assert 'NoneType' in str(msg2.value)
 
 # check for input type error in all_lst plot functions.        
-def test_plot_lst_true():
+def test_plot_all_lst_true():
     with pytest.raises(TypeError) as msg:
-        plot_utils.plot_all_LST(np.zeros((3,4),5),None)
+        plot_utils.plot_all_LST(np.zeros((3,4)),5,None)
     with pytest.raises(TypeError) as msg2:
-        plot_utils.plot_all_LST(5, np.zeros((3,4),None))
+        plot_utils.plot_all_LST(5, np.zeros((3,4)),None)
 # check for none type error in all_lst plot functions.        
 def test_plot_all_LST_Noneerror():
     with pytest.raises(TypeError) as msg:
