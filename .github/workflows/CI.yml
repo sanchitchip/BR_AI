@@ -36,5 +36,5 @@ jobs:
         cd unit_testing
         pytest nd_test.py
         pytest coord_test.py
-        pytest plot_test.py
         pytest lst_test.py
+        pytest plot_test.py
