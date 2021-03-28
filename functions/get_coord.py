@@ -36,6 +36,9 @@ def get_coord_matrix(image_width,image_height,bbox):
     """
 
     #!!!!! be careful what does the width and height individually correspond to? long or lati?
+    if all([image_width,image_height,BBox]):
+        raise TypeError
+
     bounds = tuple(bbox)
     long_shape = image_width 
     lati_shape = image_height 
@@ -65,6 +68,8 @@ def get_geoindex(geo_matrix, index_pixel):
     Returns: 
          returns the  geo coodinates of a coordinates of a given pixel in an image
     """
+    if all([geo_matrix,index_pixel]):
+        raise TypeError
     vX_geo = geo_matrix[0][index_pixel[0]]
     vL = len(geo_matrix[1])
     # instead of using this modify the y as difference value.
@@ -95,6 +100,8 @@ def get_patch(geo_matrix,index_pixel,filter_size=20):
     """
     
     # geo = (long: image_width,lati: image_height)
+    if all([geo_matrix,index_pixel]):
+        raise TypeError
     image_width,image_height = [len(i) for i in geo_matrix]
     x,y = index_pixel
     vX_max = index_pixel[0]+20
@@ -121,7 +128,7 @@ def get_patch(geo_matrix,index_pixel,filter_size=20):
 
 ## -- for testing 
 # 1.) check type of geo_matrix
-# 2.) check type of index_pixel and check if value is None or not in case of none return value error
+# 2.) check type of index_pixel and check if value is None or not in case of none return value error:Done
 def make_bbox(geo_matrix,index_pixel,filter_size=20):
     """ This functions makes bbox for a particular x,y coordinates from images by first fetching their geo-coordinates 
     and converting them to BBox object.
@@ -140,6 +147,8 @@ def make_bbox(geo_matrix,index_pixel,filter_size=20):
     Returns:
         returns bbox of the given geo coordinates
     """
+    if all([geo_matrix,index_pixel]):
+        raise TypeError
     vX_max,vY_max,vX_min,vY_min = get_patch(geo_matrix,index_pixel,filter_size)
     vX_geo_max = geo_matrix[0][vX_max]
     vX_geo_min = geo_matrix[0][vX_min]
@@ -174,6 +183,8 @@ def get_bbox(geo_matrix,blobs,filter_size=20):
     Returns:
         returns bbox of the given geo coordinates
     """
+    if all([geo_matrix,blobs]):
+        raise TypeError
     vfinal=[]
     for i in range(len(blobs)):
         y,x,_ = blobs[i]
