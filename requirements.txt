@@ -3,4 +3,5 @@ numpy
 sentinelhub
 xarray
 scikit-image
+scikit-learn
 plotly

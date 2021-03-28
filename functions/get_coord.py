@@ -1,4 +1,3 @@
-from eolearn.core import EOPatch
 import numpy as np
 import sys
 sys.path.insert(1,'../functions')
@@ -259,42 +258,5 @@ def get_island_submatrix(data,blobs,filter_shape=20,dim_error=False):
 
     return vfin
     
-
-
-if __name__ == '__main__':
-
- eopatch = EOPatch.load('../data/ld8_example')
- eopatch_data = eopatch.data['L1C_data']
-
- vR = eopatch_data[:,:,:,3]
- vG = eopatch_data[:,:,:,2]
- vB = eopatch_data[:,:,:,1]
- vImg = np.stack([vR,vG,vB],axis =3)
- vImg = (vImg *(255/  np.max(vImg))).astype(np.uint8)
- vImg = (vImg*(3.5/255))
- f, ax = plt.subplots(1,1)
- im = ax.imshow(vImg[0],
-                cmap=plt.cm.jet)
-
- #f.colorbar(im,orientation="horizontal",fraction=0.07)
- ## matplotlib
- ## allianz arena reference:
- # in x,y way:
- vCoord=(955,170)
- r = 2
- c = plt.Circle((vCoord[0], vCoord[1]), r*10, color='green', linewidth=2, fill=False)
-
- ax.add_patch(c)
- plt.show()
-# _munich = gpd.read_file('../geojson/munich.geojson')
-# _interested_area = _munich.geometry.unary_union
-# _bbox_interested_area = _interested_area.bounds
-# _roi_bbox = BBox(bbox=_bbox_interested_area, crs=CRS.WGS84)
-# vM,_ = get_coord_matrix(vImg.shape[2],vImg.shape[1],_roi_bbox)
-# vROI = make_bbox(vM,vCoord)
-# print(vROI)
- ## longitude is width, latitude is height
- #pdb.set_trace()
-
 
  
