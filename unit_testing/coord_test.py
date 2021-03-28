@@ -1,13 +1,7 @@
-import geopandas as gpd
 import sys
 sys.path.insert(1,"../functions/")
 import pytest
-import io_pipe
-import nd_index
-from eolearn.core import EOPatch
 import numpy as np
-import pdb
-import lst
 import get_coord
 
 def test_coord_matrix_input_type():
