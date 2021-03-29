@@ -171,8 +171,23 @@ def island_detection(LST,method= 'doh',thresholding=True):
         
     Returns: numpy array of possible islands candidate.    
     """
+    if LST is None or method is None or thresholding is None:        
+        raise TypeError("NoneType value in one of the arguments")
+    if not isinstance(LST,np.ndarray):
+        raise TypeError('Please provide a  Numpy array for Land surface temperature')
+
+    if not isinstance(method,str):
+        raise TypeError('Please provide a  string for method of algorithm that you are going to use.')
+
+    if not isinstance(thresholding,bool):
+        raise TypeError('Please provide a  string for method of algorithm that you are going to use.')
+
+    if method not in ['log','doh','dog']:
+        raise TypeError("TypeError the detection algorithm is only implemented for dog,doh,log.")
+    
     vgray = rgb2gray(LST)
     vgray = scale(vgray,axis=0, with_mean=True, copy=True)
+    blobs = None
     if method== "dog":
         blobs=blob_dog(vgray, max_sigma=9, threshold=.1)
     if method== "doh":

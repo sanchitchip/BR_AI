@@ -67,3 +67,28 @@ def test_threshold_input_type():
         lst.temperature_threshold(5,[1,35,67,3])
         
 
+## add test cases for lst functions.
+# check for none type error in calc_ndvi functions.        
+def test_calc_island_detection_Noneerror():
+    with pytest.raises(TypeError) as msg:
+        lst.island_detection(np.zeros((3,4)),
+                           None)
+    with pytest.raises(TypeError) as msg2:
+        lst.island_detection(None,'doh')
+
+    print(msg.value)    
+    assert 'NoneType' in str(msg.value)
+    print(msg2.value)        
+    assert 'NoneType' in str(msg2.value)
+
+    
+# check for input type error in calc_ndvi functions.
+
+def test_calc_island_detection_input_method():
+#    print('hi')
+    with pytest.raises(TypeError) as msg:
+        vblob = lst.island_detection(vLSE,
+                             'alpha',False)
+    print(msg)
+    assert 'TypeError' in str(msg.value)
+    
