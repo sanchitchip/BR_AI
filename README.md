@@ -1,2 +1,3 @@
-# BR_AI
-repository for Bayerischer Rundfunk project
+# BR AI and Automation Lab: Satellite Imagery
+
+## Project Description
