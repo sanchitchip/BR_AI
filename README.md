@@ -5,13 +5,12 @@
 The Goal of this Project was to locate Urban Heat Islands in a given City, and to analyse their development over time, as well as the corresponding development of vegetation and soil moisture for the located areas. For this purpose, a data pipeline that can fetch batches of satellite imagery on arbitrary locations and timeframes was built. After fetching data, functions for calculating the metrics of interest (i.e. [Landsurface Temperature](https://www.usgs.gov/core-science-systems/nli/landsat/using-usgs-landsat-level-1-data-product), [NDVI](https://labo.obs-mip.fr/multitemp/using-ndvi-with-atmospherically-corrected-data/) and [NDWI](https://en.wikipedia.org/wiki/Normalized_difference_water_index)) is applied. In the next Step, a function utilizing a [DoH-Algorithm](https://scikit-image.org/docs/dev/auto_examples/features_detection/plot_blob.html) is used to detect possible Heat Islands. Finally, we can call an interactive Dash App to visualize the detected Heat Island candidates on a map together with their corresponding metrics and their devolopment over time.  
 
 ## Code Workflow 
-1. `io_pipe.py` 
-2. `lst.py`
-3. `get_coord.py` 
-4. `nd_index.py`
-5. `aggregate.py`
-6. `app.py`
-
+1. `io_pipe.py` This function is used to fetch landsat8 images via the [sentinelhub API](https://www.sentinel-hub.com/). Timeframe and Area of interest can be specified. 
+2. `lst.py` This function is used to calculate Landsurface Temperature and detect possible heat islands on a given batch of data. 
+3. `get_coord.py` This function provides the coordinates of the heat islands candidates as located by *lst.py*, which are necessary for the dash app. 
+4. `nd_index.py` This function is used to calculate NDVI and NDWI. 
+5. `aggregate.py` This function aggregates the data and the calculated metrics for the dash app.
+6. `app.py` This function builds the dash app and visualizes the results interactively. 
 
 ## Dash App Interface 
 Add screenshot of app and explain each part
