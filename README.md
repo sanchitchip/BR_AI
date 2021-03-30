@@ -9,12 +9,12 @@ The Goal of this Project was to locate Urban Heat Islands in a given City, and t
 ## Dash App Interface 
 
 ## Definition and Detection of Heat Islands
-The DoH Algorithm detects locations, where changes in the determinant of the Hessian Matrix (which corresponds to local maxima or minima in curvature) lie above a a certain threshhold. This gives a number of candidates for potential Heat Islands. In the next step, we compare the temperature of each heat island candidate to the 0.98-Quantile of temperature of the surrounding area, and classify a candidate as Heat Island, only if it lies above the 0.98-Quantile value. This ensures we get rid of local minima and larger areas that have a high Landssurface Temperature in general. As there is no widely accepted definition of what constitutes a heat island, it might be of interest for any future usage to vary this defintion, which can be done by altering the following parameters of the `island_detection` in the *lst.py* file: 
+The DoH Algorithm detects locations, where changes in the determinant of the Hessian Matrix (which corresponds to local maxima or minima in curvature) lie above a a certain threshhold. This gives a number of candidates for potential Heat Islands. In the next step, we compare the temperature of each heat island candidate to the 0.98-Quantile of temperature of the surrounding area, and classify a candidate as Heat Island, only if it lies above the 0.98-Quantile value. This ensures we get rid of local minima and larger areas that have a high Landssurface Temperature in general. As there is no widely accepted definition of what constitutes a heat island, it might be of interest for any future usage to vary this defintion, which can be done by altering the following parameters of the `island_detection()` function in the *lst.py* file: 
 
 * `threshold=0.1` This Parameter controls the threshold of what is considered a significant change in temperature. **Reduce this to detect less prominent blobs**.
 * `max_sigma` This parameter controls the maximum standard deviation for Gaussian Kernel used to compute Hessian matrix. **Keep this high to detect larger blobs**.
 * `min_sigma` This parameter controls the minimum standard deviation for Gaussian Kernel used to compute Hessian matrix.. **Keep this low to detect smaller blobs.**.
 
-
+Other parameters to alter the defintion and detection process would be changing the 0.98-Quantile to a different value, as well as the comparison area it is applied to. The default is set to a 20 * 20 pixel box. Both parameters are included in the `temperature_threshold()` function of the *lst.py* file. 
 
 ## Demo 
