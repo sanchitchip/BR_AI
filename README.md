@@ -20,7 +20,7 @@ The DoH Algorithm detects locations, where changes in the determinant of the Hes
 
 * `threshold=0.1` This Parameter controls the threshold of what is considered a significant change in temperature. **Reduce this to detect less prominent blobs**.
 * `max_sigma` This parameter controls the maximum standard deviation for Gaussian Kernel used to compute Hessian matrix. **Keep this high to detect larger blobs**.
-* `min_sigma` This parameter controls the minimum standard deviation for Gaussian Kernel used to compute Hessian matrix.. **Keep this low to detect smaller blobs.**.
+* `min_sigma` This parameter controls the minimum standard deviation for Gaussian Kernel used to compute Hessian matrix. **Keep this low to detect smaller blobs**.
 
 Other parameters to alter the defintion and detection process would be changing the 0.98-Quantile to a different value, as well as the comparison area it is applied to. The default is set to a 20 * 20 pixel box. Both parameters are included in the `temperature_threshold()` function of the *lst.py* file. For (visual) examples on the detection workflow, see `Heat_island_detection.ipynb` in the examples folder. 
 
