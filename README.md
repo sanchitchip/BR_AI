@@ -5,6 +5,8 @@
 The Goal of this Project was to locate Urban Heat Islands in a given City, and to analyse their development over time, as well as the corresponding development of vegetation and soil moisture for the located areas. For this purpose, a data pipeline that can fetch batches of satellite imagery on arbitrary locations and timeframes was built. After fetching data, functions for calculating the metrics of interest (i.e. [Landsurface Temperature](https://www.usgs.gov/core-science-systems/nli/landsat/using-usgs-landsat-level-1-data-product), [NDVI](https://labo.obs-mip.fr/multitemp/using-ndvi-with-atmospherically-corrected-data/) and [NDWI](https://en.wikipedia.org/wiki/Normalized_difference_water_index)) is applied. After calculation of the LST a [DoH-Algorithm](https://scikit-image.org/docs/dev/auto_examples/features_detection/plot_blob.html) is used to detect possible Heat Islands. Finally, we can call an interactive Dash App to visualize the detected Heat Island candidates on a map together with their corresponding metrics and their devolopment over time.  
 
 ## Code Workflow 
+Following is a short description of the succession of the code workflow and each function:
+
 1. `io_pipe.py` This function is used to fetch Landsat8 images via the [Sentinelhub API](https://www.sentinel-hub.com/). Timeframe and Area of interest can be specified. The default area is Munich.  
 2. `lst.py` This function is used to calculate Landsurface Temperature and detect possible heat islands on a given batch of data. 
 3. `get_coord.py` This function provides the coordinates of the heat islands candidates as located by *lst.py*, which are necessary for the dash app. 
