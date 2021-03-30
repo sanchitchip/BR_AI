@@ -7,12 +7,12 @@ The Goal of this Project was to create a tool that allows to locate Urban Heat I
 ## Code Workflow 
 Following is a short description of the succession of the code workflow and each function:
 
-1. `io_pipe.py` This function is used to fetch Landsat8 images via the [Sentinelhub API](https://www.sentinel-hub.com/). Timeframe and Area of interest can be specified. The default area is Munich.  
-2. `lst.py` This function is used to calculate Landsurface Temperature and detect possible heat islands on a given batch of data. 
-3. `get_coord.py` This function provides the coordinates of the heat islands candidates as located by *lst.py*, which are necessary for the dash app. 
-4. `nd_index.py` This function is used to calculate NDVI and NDWI. 
-5. `aggregate.py` This function aggregates the data and the calculated metrics for the dash app.
-6. `app.py` This function builds the dash app and visualizes the results interactively. 
+1. `io_pipe.py` Contains functions to fetch Landsat8 images via the [Sentinelhub API](https://www.sentinel-hub.com/). Timeframe and Area of interest can be specified. The default area is Munich.  
+2. `lst.py` Contains functions to calculate Landsurface Temperature and detect possible heat islands on a given batch of data. 
+3. `get_coord.py` Contains functions to provide the coordinates of the heat islands candidates as located by *lst.py*, which are necessary for the dash app. 
+4. `nd_index.py` Contains functions to calculate NDVI and NDWI. 
+5. `aggregate.py` Contains functions to aggregate the data and the calculated metrics for the dash app.
+6. `app.py` Contains functionality to build the dash app and visualize the results interactively. 
 
 ## Dash App Interface 
 Add screenshot of app and explain each part
