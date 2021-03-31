@@ -30,11 +30,13 @@ Other parameters to alter the defintion and detection process would be changing 
 
 ## Demo 
 
-Running the `app.py`
+Running the `app.py` file like e.g. this
 ```
 Cd dash/  
 Python app.py
 ```
+
+will produce output similar to this. Copy `http://127.0.0.1.8200` to your webbrowser to start the app.
 ![alt text](https://github.com/sanchitchip/BR_AI/blob/main/run_dash.png)
 
 ## What else to know 
