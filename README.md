@@ -36,7 +36,7 @@ Cd dash/
 Python app.py
 ```
 
-will produce output similar to this. Copy `http://127.0.0.1.8200` to your webbrowser to start the app.
+will produce output similar to this. Copy `http://127.0.0.1.8200/` to your webbrowser to start the app.
 ![alt text](https://github.com/sanchitchip/BR_AI/blob/main/run_dash.png)
 
 ## What else to know 
