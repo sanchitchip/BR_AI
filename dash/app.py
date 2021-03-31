@@ -202,15 +202,6 @@ def render_content(tab,year):
         ])
 
 
-
-# choropleth callback
-# @app.callback(Output("heatisland-title", "children"),  [Input("munich-choropleth", "selectedData")])
-# def update_map_title(island_index):
-#     return "Heat island detection in year {0}".format(
-#         year
-#     )
-
-
 # add graphs in Tabs
 @app.callback(
      Output("selected-data", "figure"),
