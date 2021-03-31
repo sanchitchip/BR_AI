@@ -30,7 +30,7 @@ Other parameters to alter the defintion and detection process would be changing 
 
 ## Demo 
 
-AFter installing all necessary packages, running the `app.py` file like e.g. this
+After installing all necessary packages, running the `app.py` file like e.g. this
 ```
 Cd dash/  
 Python app.py
