@@ -1,3 +1,4 @@
+# import library
 import sys
 import geopandas as gpd
 from datetime import date
@@ -11,6 +12,7 @@ import xarray as xr
 import plotly.express as px
 from shapely import geometry
 from xarray.core.indexing import is_fancy_indexer
+# import local packages
 sys.path.insert(1, "../functions/")
 import io_pipe
 import nd_index
@@ -18,13 +20,11 @@ import get_coord
 import aggregate
 import plot_utils
 
-# import local function
-
+# get munich bounding box 
 munich = gpd.read_file('../geojson/munich.geojson')
 interested_area = munich.geometry.unary_union
 bbox_interested_area = interested_area.bounds
 
-# eopatch = io_pipe.read_eopatch('../example_data/ld8_example')
 # read simpale data
 data = np.load("../data/image_dump.npz",allow_pickle =True)
 time = np.load("../data/timestamp.npz",allow_pickle =True)
