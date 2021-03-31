@@ -30,7 +30,7 @@ Other parameters to alter the defintion and detection process would be changing 
 
 ## Demo 
 
-Running the `app.py` file like e.g. this
+AFter installing all necessary packages, running the `app.py` file like e.g. this
 ```
 Cd dash/  
 Python app.py
@@ -38,7 +38,10 @@ Python app.py
 
 will produce output similar to this: <br><br>
 ![alt text](https://github.com/sanchitchip/BR_AI/blob/main/run_dash.png) <br>
-Copy `http://127.0.0.1.8200/` to your webbrowser to start the app.
+Copy `http://127.0.0.1.8200/` to your webbrowser to start the app.<br>
+
+The data displayed is example data attached under `data` in this repository. 
+
 
 ## What else to know 
 The whole workflow as described under Code and Workflow can easily be generalized to arbitrary locations and timeframes. However it is important to note that the quality of the Analysis is limited by the quality of the Data. Concretly speaking, with public Landsat8 data it is hard to conduct a plausible timeseries analysis. Therefore this tool is to be seen as an exploratory tool, that can support with finding points of interest for further (external) analysis. For further information, see also the attached slides under `Final_Presentation.pdf`. 
