@@ -37,7 +37,7 @@ Python app.py
 ```
 
 will produce output similar to this: <br><br>
-![alt text](https://github.com/sanchitchip/BR_AI/blob/main/run_dash.png)
+![alt text](https://github.com/sanchitchip/BR_AI/blob/main/run_dash.png) <br>
 Copy `http://127.0.0.1.8200/` to your webbrowser to start the app.
 
 ## What else to know 
