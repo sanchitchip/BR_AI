@@ -15,7 +15,9 @@ Following is a short description of the succession of the code workflow and each
 6. `app.py` Contains functionality to build the dash app and visualize the results interactively. 
 
 ## Dash App Interface 
-Add screenshot of app and explain each part
+![alt text](https://github.com/sanchitchip/BR_AI/blob/main/Interface.jpeg)
+On the left side of the Interface a map of the area of interest is displayed. It shows all detected heat island candidates as red squares. It is possible to zoom in on the map to check locations in detail. Each Red Square is selectable. When selected, detailed information reagrding the respective Heat Island Candidate is displayed on the right sight of the interface. <br><br>
+In the middle of the right side, a close up view on the selected area is displayed. The three filter boxes `NDVI`, `NDWI` and `LST` determine which metric is displayed. This can be used to check the structure and form of a possible heat island. The slider on top can be used to switch between years, which allows for an examination of the development of the selected area over time. At the bottom, a time series graph is displayed for the selected metric over the whole timeframe. 
 
 ## Definition and Detection of Heat Islands
 The DoH Algorithm detects locations, where changes in the determinant of the Hessian Matrix (which corresponds to local maxima or minima in curvature) lie above a a certain threshhold. This gives a number of candidates for potential Heat Islands. In the next step, we compare the temperature of each heat island candidate to the 0.98-Quantile of temperature of the surrounding area, and classify a candidate as Heat Island, only if it lies above the 0.98-Quantile value. This ensures we get rid of local minima and larger areas that have a high Landssurface Temperature in general. As there is no widely accepted definition of what constitutes a heat island, it might be of interest for any future usage to vary this defintion, which can be done by altering the following parameters of the `island_detection()` function in the *lst.py* file: 
@@ -24,10 +26,22 @@ The DoH Algorithm detects locations, where changes in the determinant of the Hes
 * `max_sigma` This parameter controls the maximum standard deviation for Gaussian Kernel used to compute Hessian matrix. **Keep this high to detect larger locations**.
 * `min_sigma` This parameter controls the minimum standard deviation for Gaussian Kernel used to compute Hessian matrix. **Keep this low to detect smaller locations**.
 
-Other parameters to alter the defintion and detection process would be changing the 0.98-Quantile to a different value, as well as the comparison area it is applied to. The default is set to a 20 * 20 pixel box. Both parameters are included in the `temperature_threshold()` function of the *lst.py* file. For (visual) examples on the detection workflow, see `Heat_island_detection.ipynb` in the examples folder. 
+Other parameters to alter the defintion and detection process would be changing the 0.98-Quantile to a different value, as well as the comparison area it is applied to. The default is set to a 20 * 20 pixel box. Both parameters are included in the `temperature_threshold()` function of the *lst.py* file. For (visual) examples on the detection workflow, see `Heat_island_detection.ipynb` in the examples folder. In the same folder, the `Heat_Islands_Berlin.ipynb` notebook gives a demonstration on how to change the area of interest.
 
 ## Demo 
-code demo or reference to notebook
+
+After installing all necessary packages, running the `app.py` file like e.g. this
+```
+Cd dash/  
+Python app.py
+```
+
+will produce output similar to this: <br><br>
+![alt text](https://github.com/sanchitchip/BR_AI/blob/main/run_dash.png) <br>
+Copy `http://127.0.0.1.8200/` to your webbrowser to start the app.<br>
+
+The data displayed is example data attached under the `data` folder in this repository. 
+
 
 ## What else to know 
 The whole workflow as described under Code and Workflow can easily be generalized to arbitrary locations and timeframes. However it is important to note that the quality of the Analysis is limited by the quality of the Data. Concretly speaking, with public Landsat8 data it is hard to conduct a plausible timeseries analysis. Therefore this tool is to be seen as an exploratory tool, that can support with finding points of interest for further (external) analysis. For further information, see also the attached slides under `Final_Presentation.pdf`. 
