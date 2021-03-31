@@ -29,7 +29,8 @@ The DoH Algorithm detects locations, where changes in the determinant of the Hes
 Other parameters to alter the defintion and detection process would be changing the 0.98-Quantile to a different value, as well as the comparison area it is applied to. The default is set to a 20 * 20 pixel box. Both parameters are included in the `temperature_threshold()` function of the *lst.py* file. For (visual) examples on the detection workflow, see `Heat_island_detection.ipynb` in the examples folder. 
 
 ## Demo 
-```Cd dash/  
+```
+Cd dash/  
 Python app.py
 ```
 
