@@ -16,7 +16,7 @@ Following is a short description of the succession of the code workflow and each
 
 ## Dash App Interface 
 ![alt text](https://github.com/sanchitchip/BR_AI/blob/main/Interface.jpeg)
-On the left side of the Interface is displayed a map of the area of interest. It shows all detected heat island candidates as red squares. It is possible to zoom in on the map to check locations in detail.Each Red Square is selectable. When selected, detailed information reagrding the respective Heat Island Candidate is displayed on the right sight of the interface.\
+On the left side of the Interface is displayed a map of the area of interest. It shows all detected heat island candidates as red squares. It is possible to zoom in on the map to check locations in detail.Each Red Square is selectable. When selected, detailed information reagrding the respective Heat Island Candidate is displayed on the right sight of the interface.\ <br>
 In the middle of the right side, a close up view on the selected area is displayed. The three filter boxes `NDVI`, `NDWI` and `LST` determine which metric is displayed. This can be used to check the structure and form of a possible heat island. The slider on top can be used to switch between years, which allows for an examination of the development of the selected area over time. At the bottom, a time series graph is displayed for the selected metric over the whole timeframe. 
 
 ## Definition and Detection of Heat Islands
