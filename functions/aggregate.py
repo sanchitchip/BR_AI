@@ -92,7 +92,10 @@ def get_plot_coord(bbox:list,island_aggregate_data:list,filter_shape=20)->list:
     """    
     
     _bbox = [list(i) for i in bbox]
+    # save all the plot data.frame as a list.
     coord_data = []
+    
+    # for each data, we create a data.frame to save all the coordinate index.
     for index,sub_data in enumerate(island_aggregate_data):
         sub_size_long = 2*filter_shape
         sub_size_lati = 2*filter_shape
@@ -105,6 +108,7 @@ def get_plot_coord(bbox:list,island_aggregate_data:list,filter_shape=20)->list:
                           'space_lati':space_lati, 
                           'diff_long':diff_long,
                           'diff_lati':diff_lati}
+        # append each data.frame to list.
         coord_data.append(coord_sub_dict)
     
     return coord_data
@@ -131,7 +135,10 @@ def get_line_data(df,type='mean'):
     assert type in ['mean','max','min'], "Please enter 'mean','max' or 'min'"
     # copy data
     return_df = df.copy(deep=True)
+    # get the number of row and column
     row,column = df.shape
+    # three different types to aggregate the matrix into one single value
+    # because line chart only need one single value for each plot.
     if type == 'max':
         fun = np.max
     if type == 'mean':
