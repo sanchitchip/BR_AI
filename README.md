@@ -36,7 +36,7 @@ Cd dash/
 Python app.py
 ```
 
-<img src="https://github.com/sanchitchip/BR_AI/blob/main/run_dash.png" height="200" width="400">
+<img src="https://github.com/sanchitchip/BR_AI/blob/main/run_dash.png" height="563" width="125">
 
 ## What else to know 
 The whole workflow as described under Code and Workflow can easily be generalized to arbitrary locations and timeframes. However it is important to note that the quality of the Analysis is limited by the quality of the Data. Concretly speaking, with public Landsat8 data it is hard to conduct a plausible timeseries analysis. Therefore this tool is to be seen as an exploratory tool, that can support with finding points of interest for further (external) analysis. For further information, see also the attached slides under `Final_Presentation.pdf`. 
