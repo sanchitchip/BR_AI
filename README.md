@@ -17,7 +17,7 @@ Following is a short description of the succession of the code workflow and each
 ## Dash App Interface 
 ![alt text](https://github.com/sanchitchip/BR_AI/blob/main/Interface.jpeg)
 On the left side of the Interface is displayed a map of the area of interest. It shows all detected heat island candidates as red squares. It is possible to zoom in on the map to check locations in detail.\
-( \ )
+\ 
 Each Red Square is selectable. When selected, detailed information reagrding the respective Heat Island Candidate is displayed on the right sight of the interface.
 
 ## Definition and Detection of Heat Islands
