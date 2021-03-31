@@ -17,8 +17,8 @@ Following is a short description of the succession of the code workflow and each
 ## Dash App Interface 
 ![alt text](https://github.com/sanchitchip/BR_AI/blob/main/Interface.jpeg)
 On the left side of the Interface is displayed a map of the area of interest. It shows all detected heat island candidates as red squares. It is possible to zoom in on the map to check locations in detail.\
-\ 
-Each Red Square is selectable. When selected, detailed information reagrding the respective Heat Island Candidate is displayed on the right sight of the interface.
+Each Red Square is selectable. When selected, detailed information reagrding the respective Heat Island Candidate is displayed on the right sight of the interface.\
+In the middle of the right side, a close up view on the selected area is displayed. The three filter boxes `NDVI`, `NDWI` and `LST` determine which metric is displayed. This can be used to check the structure and form of a possible heat island. The slider on top can be used to switch between years, which allows for an examination of the development of the selected area over time. At the bottom, a time series graph is displayed for the selected metric over the whole timeframe. 
 
 ## Definition and Detection of Heat Islands
 The DoH Algorithm detects locations, where changes in the determinant of the Hessian Matrix (which corresponds to local maxima or minima in curvature) lie above a a certain threshhold. This gives a number of candidates for potential Heat Islands. In the next step, we compare the temperature of each heat island candidate to the 0.98-Quantile of temperature of the surrounding area, and classify a candidate as Heat Island, only if it lies above the 0.98-Quantile value. This ensures we get rid of local minima and larger areas that have a high Landssurface Temperature in general. As there is no widely accepted definition of what constitutes a heat island, it might be of interest for any future usage to vary this defintion, which can be done by altering the following parameters of the `island_detection()` function in the *lst.py* file: 
