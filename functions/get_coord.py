@@ -37,10 +37,13 @@ def get_coord_matrix(image_width,image_height,bbox):
         raise TypeError('Please provide a int for image width.')
     
     bounds = tuple(bbox)
+    # get the number of indexes of long. and lati.
     long_shape = image_width 
     lati_shape = image_height 
+    # get the bound index of long. and lati.
     long = bounds[::2]
     lati = bounds[1::2]
+    # create linspace as a Reference coordinates
     space_long,diff_long = np.linspace(*long,long_shape,retstep=True)
     space_lati,diff_lati = np.linspace(*lati,lati_shape,retstep=True)
     distance = [diff_long, diff_lati]
