@@ -16,7 +16,7 @@ Following is a short description of the succession of the code workflow and each
 
 ## Dash App Interface 
 ![alt text](https://github.com/sanchitchip/BR_AI/blob/main/Interface.jpeg)
-On the left side of the Interface is displayed a map of the area of interest. It shows all detected heat island candidates. It is possible to zoom in on the map to check locations in detail. 
+On the left side of the Interface is displayed a map of the area of interest. It shows all detected heat island candidates. It is possible to zoom in on the map to check locations in detail.  Test
 
 ## Definition and Detection of Heat Islands
 The DoH Algorithm detects locations, where changes in the determinant of the Hessian Matrix (which corresponds to local maxima or minima in curvature) lie above a a certain threshhold. This gives a number of candidates for potential Heat Islands. In the next step, we compare the temperature of each heat island candidate to the 0.98-Quantile of temperature of the surrounding area, and classify a candidate as Heat Island, only if it lies above the 0.98-Quantile value. This ensures we get rid of local minima and larger areas that have a high Landssurface Temperature in general. As there is no widely accepted definition of what constitutes a heat island, it might be of interest for any future usage to vary this defintion, which can be done by altering the following parameters of the `island_detection()` function in the *lst.py* file: 
