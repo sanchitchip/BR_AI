@@ -29,8 +29,7 @@ The DoH Algorithm detects locations, where changes in the determinant of the Hes
 Other parameters to alter the defintion and detection process would be changing the 0.98-Quantile to a different value, as well as the comparison area it is applied to. The default is set to a 20 * 20 pixel box. Both parameters are included in the `temperature_threshold()` function of the *lst.py* file. For (visual) examples on the detection workflow, see `Heat_island_detection.ipynb` in the examples folder. 
 
 ## Demo 
-`Cd dash/
-Python app.py`
+`Cd dash/  Python app.py`
 
 ## What else to know 
 The whole workflow as described under Code and Workflow can easily be generalized to arbitrary locations and timeframes. However it is important to note that the quality of the Analysis is limited by the quality of the Data. Concretly speaking, with public Landsat8 data it is hard to conduct a plausible timeseries analysis. Therefore this tool is to be seen as an exploratory tool, that can support with finding points of interest for further (external) analysis. For further information, see also the attached slides under `Final_Presentation.pdf`. 
