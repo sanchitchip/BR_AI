@@ -6,17 +6,10 @@ import numpy as np
 import pdb
 import lst
 
-#landsat8_eopatch = EOPatch.load('../data/ld8_example')
-#landsat8_data = landsat8_eopatch.data['L1C_data']
-landsat8_data = np.load('../data/ld8_raw.npz')
-landsat8_data = landsat8_data['data']
-#landsat8_data = io_pipe.get_raw(landsat8_eopatch)
-
-#### loading the necessary files so that don't have to fetch them.
-landsat_ndvi = nd_index.calc_ndvi(landsat8_data)
-#lst.BrightnessTemp()
-B10 = landsat8_data[:,:,:,9]-273
-B11 = landsat8_data[:,:,:,10]-273
+#### Randomly generating data instead of using mp load 
+landsat_ndvi = np.random.uniform(low=-.99, high=.99, size=(1,1000,1000))
+B10 = np.random.uniform(low= 280, high=300, size=(1,1000,1000))
+B11 = np.random.uniform(low= 280, high=300, size=(1,1000,1000))
 vLSE = lst.LSE(landsat_ndvi)
 
 
