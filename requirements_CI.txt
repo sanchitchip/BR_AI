@@ -1,0 +1,7 @@
+pytest>=4.0.0
+numpy
+sentinelhub
+xarray
+scikit-image
+scikit-learn
+plotly
