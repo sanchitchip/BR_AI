@@ -3,9 +3,14 @@ from skimage.feature import blob_dog, blob_log, blob_doh
 from skimage.color import rgb2gray
 from sklearn.preprocessing import scale
 
+## Blog on LST calculation done using R.[alot of the code below is inspired from this and also the github repo]
+#1.) https://www.gis-blog.com/calculation-of-land-surface-temperature-lst-from-landsat-8-using-r/
+#2.) https://github.com/dimejimudele/Land_surface_temperature_Landsat [This repository has a lot of different implementations of LST using various algorithms and has also referenced the algorithm used with appropriate research paper.]
+
 def BrightnessTemp(B, ADD_BAND, MULT_BAND, k1, k2):
     # Reference: https://www.usgs.gov/core-science-systems/nli/landsat/using-usgs-landsat-level-1-data-product
     """ This functions returns Brightness temperature which is useful for computation of Land surface temperature.
+    # Reference :  https://landsat.usgs.gov/using-usgs-landsat-8-product
     Args:
         param B: numpy array 
         type B: int.
@@ -61,6 +66,7 @@ def mono_LST(B_TEMP, B_LSE):
     """ This functions returns Land surface temperature(Kelvin) for a satellite image computed using Mono-window algorithm
         using brightness temperature matrix
         and land surface emissivity matrix.
+    REFERENCE: Avdan, Ugur, and Gordana Jovanovska. "Algorithm for automated mapping of land surface temperature using LANDSAT 8 satellite data." Journal of Sensors 2016 (2016).
     Args:
         param B_TEMP: Brightness temperature matrix returned from either the Brightness temperature function or directly fetched 
                        using sentinel hub API
