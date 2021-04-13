@@ -11,3 +11,4 @@ sentinelhub==3.2.1
 Shapely==1.7.1
 skimage==0.0
 xarray==0.17.0
+dash
